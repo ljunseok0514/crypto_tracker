@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { PriceData } from "./Coin";
+// import { PriceData } from "./Coin";
 import { fetchCoinTickers } from "./api";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
@@ -44,53 +44,40 @@ const PriceViewItem = styled.div`
 `;
 
 export default function Price({ coinId }: PriceProps) {
-  const { isLoading, data } = useQuery<PriceData>(["price", coinId], () =>
-    fetchCoinTickers(coinId)
-  );
-  const USD = data?.quotes.USD;
-
   return (
-    <>
-      {isLoading ? (
-        <Loader>"Price Loading..." </Loader>
-      ) : (
-        <>
-          <PriceView>
-            <PriceViewItem>
-              <p>ath_date</p>
-              <p>{USD?.ath_date}</p>
-            </PriceViewItem>
-            <PriceViewItem>
-              <p>ath_price</p>
-              <p>{USD?.ath_price.toFixed(3)}</p>
-            </PriceViewItem>
-            <PriceViewItem>
-              <p>market_cap</p>
-              <p>{USD?.market_cap}</p>
-            </PriceViewItem>
-            <PriceViewItem>
-              <p>market_cap_change_24h</p>
-              <p>{USD?.market_cap_change_24h}</p>
-            </PriceViewItem>{" "}
-            <PriceViewItem>
-              <p>percent_change_1h</p>
-              <p>{USD?.percent_change_1h}</p>
-            </PriceViewItem>{" "}
-            <PriceViewItem>
-              <p>percent_change_6h</p>
-              <p>{USD?.percent_change_6h}</p>
-            </PriceViewItem>{" "}
-            <PriceViewItem>
-              <p>percent_change_12h</p>
-              <p>{USD?.percent_change_12h}</p>
-            </PriceViewItem>{" "}
-            <PriceViewItem>
-              <p>market_cap_change_24h</p>
-              <p>{USD?.percent_change_24h}</p>
-            </PriceViewItem>{" "}
-          </PriceView>
-        </>
-      )}
-    </>
+    <PriceView>
+      <PriceViewItem>
+        <p>ath_date</p>
+        {/* <p>{USD?.ath_date}</p> */}
+      </PriceViewItem>
+      <PriceViewItem>
+        <p>ath_price</p>
+        {/* <p>{USD?.ath_price.toFixed(3)}</p> */}
+      </PriceViewItem>
+      <PriceViewItem>
+        <p>market_cap</p>
+        {/* <p>{USD?.market_cap}</p> */}
+      </PriceViewItem>
+      <PriceViewItem>
+        <p>market_cap_change_24h</p>
+        {/* <p>{USD?.market_cap_change_24h}</p> */}
+      </PriceViewItem>{" "}
+      <PriceViewItem>
+        <p>percent_change_1h</p>
+        {/* <p>{USD?.percent_change_1h}</p> */}
+      </PriceViewItem>{" "}
+      <PriceViewItem>
+        <p>percent_change_6h</p>
+        {/* <p>{USD?.percent_change_6h}</p> */}
+      </PriceViewItem>{" "}
+      <PriceViewItem>
+        <p>percent_change_12h</p>
+        {/* <p>{USD?.percent_change_12h}</p> */}
+      </PriceViewItem>{" "}
+      <PriceViewItem>
+        <p>market_cap_change_24h</p>
+        {/* <p>{USD?.percent_change_24h}</p> */}
+      </PriceViewItem>{" "}
+    </PriceView>
   );
 }

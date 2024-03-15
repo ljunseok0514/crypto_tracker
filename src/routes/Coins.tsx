@@ -65,11 +65,22 @@ const Title = styled.h1`
   color: white;
 `;
 
+const media = {
+  tablet: `@media(max-width:1024px)`,
+  moblie: `@media(max-width:767px)`,
+};
+
 const CoinsList = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   margin: 14px 0px;
   gap: 10px;
+  ${media.tablet} {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  ${media.moblie} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const Coin = styled.li`
@@ -227,6 +238,8 @@ function Coins() {
                       }),
                       currency: key.split("-")[0],
                       symblo: coinInfo?.market.split("-")[1],
+                      trade_date: coinData[key].trade_date,
+                      prev_closing_price: coinData[key].prev_closing_price,
                     },
                   }}
                 >
@@ -256,6 +269,7 @@ function Coins() {
                       {coinData[key].change === "FALL" && "- "}
                       {coinData[key].change_rate}%
                     </CoinInfoChangePrice>
+                    {coinData[key].ask_bid}
                   </CoinInfoBox>
                 </Link>
               </Coin>

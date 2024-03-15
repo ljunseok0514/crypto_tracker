@@ -16,7 +16,7 @@ import Price from "./Price";
 import arrowBack from "../assets/arrow_back_white_24dp.svg";
 
 const Header = styled.header`
-  height: 5vh;
+  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,16 +28,6 @@ const Header = styled.header`
 const Title = styled.h1`
   font-size: 18px;
   color: white;
-`;
-
-const Loader = styled.span`
-  text-align: center;
-  display: block;
-  color: rgb(90, 97, 122);
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  margin-top: 10px;
-  padding: 20px 0;
 `;
 
 const Container = styled.div`
@@ -57,46 +47,56 @@ const StyledLink = styled(Link)`
   background: url(${arrowBack}) no-repeat center;
 `;
 
-const Overview = styled.div`
+const media = {
+  tablet: `@media(max-width:767px)`,
+  moblie: `@media(min-width:480px)`,
+};
+
+const OverviewBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  ${media.tablet} {
+    display: block;
+    width: 100%;
+    padding-right: 0;
+  }
+`;
+
+const Overview = styled.div`
+  width: 50%;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 20px;
+  padding: 30px 20px 0 20px;
   border-radius: 10px;
+  margin-bottom: 10px;
+
+  &:first-child {
+    margin-right: 5px;
+  }
+  &:last-child {
+    margin-left: 5px;
+  }
+  ${media.tablet} {
+    display: block;
+    width: 100%;
+    &:first-child {
+      margin-right: 0px;
+    }
+    &:last-child {
+      margin-left: 0px;
+    }
+  }
 `;
 const OverviewItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 33%;
-  span:first-child {
+  text-align: center;
+  p:first-child {
     color: rgb(90, 97, 122);
     font-size: 12px;
     font-weight: 400;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
   }
-`;
-const Description = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 14px 0px;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  border-radius: 10px;
-  span {
-    color: rgb(90, 97, 122);
-    font-size: 12px;
-    font-weight: 400;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  p {
-    display: block;
-    line-height: 20px;
-    text-align: justify;
-    hyphens: auto;
+  P:last-child {
+    padding-bottom: 30px;
+    font-size: 18px;
   }
 `;
 
@@ -122,156 +122,88 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
-const BoxContainer = styled.div`
-  display: flex;
-`;
-
-const OverviewBox = styled.div`
-  width: 50%;
-  padding-right: 10px;
-`;
+const BoxContainer = styled.div``;
 
 const TabsBox = styled.div`
-  width: 50%;
+  ${media.tablet} {
+    width: 100%;
+  }
 `;
 
 interface RouteParams {
   coinId: string;
 }
 
-interface InfoData {
-  id: string;
-  name: string;
-  symbol: string;
-  rank: number;
-  is_new: boolean;
-  is_active: boolean;
-  type: string;
-  description: string;
-  message: string;
-  open_source: boolean;
-  started_at: string;
-  development_status: string;
-  hardware_wallet: boolean;
-  proof_type: string;
-  org_structure: string;
-  hash_algorithm: string;
-  first_data_at: string;
-  last_data_at: string;
-}
-export interface PriceData {
-  id: string;
-  name: string;
-  symbol: string;
-  rank: number;
-  circulating_supply: number;
-  total_supply: number;
-  max_supply: number;
-  beta_value: number;
-  first_data_at: string;
-  last_updated: string;
-  quotes: {
-    USD: {
-      ath_date: string;
-      ath_price: number;
-      market_cap: number;
-      market_cap_change_24h: number;
-      percent_change_1h: number;
-      percent_change_1y: number;
-      percent_change_6h: number;
-      percent_change_7d: number;
-      percent_change_12h: number;
-      percent_change_15m: number;
-      percent_change_24h: number;
-      percent_change_30d: number;
-      percent_change_30m: number;
-      percent_from_price_ath: number;
-      price: number;
-      volume_24h: number;
-      volume_24h_change_24h: number;
-    };
-  };
-}
-
-interface RouteState {
+export interface RouteState {
   name: string;
   price: number;
   symblo: string;
   currency: string;
+  trade_date: number;
+  prev_closing_price: number;
 }
 
 function Coin() {
-  const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
-  const priceMatch = useRouteMatch("/:coinId/price");
-  const chartMatch = useRouteMatch("/:coinId/chart");
-  const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
-    ["info", coinId],
-    () => fetchCoinInfo(coinId)
-  );
-  const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
-    ["tickers", coinId],
-    () => fetchCoinTickers(coinId)
-    // {
-    //   refetchInterval: 5000,
-    // }
-  );
 
-  const loading = infoLoading || tickersLoading;
   return (
     <Container>
       <Helmet>
         <title>{state?.name}</title>
       </Helmet>
       <Header>
-        <Title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-        </Title>
+        <Title>{state?.name}</Title>
       </Header>
       <StyledLink to="/"></StyledLink>
-      {loading ? (
-        <Loader>"Coin Info Loading..."</Loader>
-      ) : (
-        <BoxContainer>
-          <OverviewBox>
-            <Overview>
-              {/* <OverviewItem>
-                <span>Rank:</span>
-                <span>{infoData?.rank}</span>
-              </OverviewItem> */}
-              <OverviewItem>
-                <span>Symbol:</span>
-                <span>{state?.symblo}</span>
-              </OverviewItem>
-              <OverviewItem>
-                <span>Price:</span>
-                {/* <span>{tickersData?.quotes.USD.price.toFixed(3)}</span> */}
-                <span>
-                  {state?.price}
-                  {state?.currency}
-                </span>
-              </OverviewItem>
-            </Overview>
-            <Description>
-              <span>description:</span>
-              <p>{infoData?.description}</p>
-            </Description>
-            <Overview>
-              <OverviewItem>
-                <span>Total Suply:</span>
-                <span>{tickersData?.total_supply}</span>
-              </OverviewItem>
-              <OverviewItem>
-                <span>Max Supply:</span>
-                <span>{tickersData?.max_supply}</span>
-              </OverviewItem>
-            </Overview>
-            {/* <Price coinId={coinId} /> */}
-          </OverviewBox>
 
-          <TabsBox>
-            {/* <Chart coinId={coinId} /> */}
-            {/* <Tabs>
+      <BoxContainer>
+        <OverviewBox>
+          <Overview>
+            <OverviewItem>
+              <p>Symbol:</p>
+              <p>{state?.symblo}</p>
+            </OverviewItem>
+            <OverviewItem>
+              <p>Price:</p>
+              <p>
+                {state?.price}
+                {state?.currency}
+              </p>
+            </OverviewItem>
+            <OverviewItem>
+              <p>Trade Date:</p>
+              <p>{state?.trade_date}</p>
+            </OverviewItem>
+            <OverviewItem>
+              <p>Max Supply:</p>
+              <p></p>
+            </OverviewItem>
+          </Overview>
+          <Overview>
+            <OverviewItem>
+              <p>Symbol:</p>
+              <p>{state?.symblo}</p>
+            </OverviewItem>
+            <OverviewItem>
+              <p>Price:</p>
+              <p>
+                {state?.price}
+                {state?.currency}
+              </p>
+            </OverviewItem>
+            <OverviewItem>
+              <p>Trade Date:</p>
+              <p>{state?.trade_date}</p>
+            </OverviewItem>
+            <OverviewItem>
+              <p>Max Supply:</p>
+            </OverviewItem>
+          </Overview>
+        </OverviewBox>
+
+        <TabsBox>
+          <Chart state={state} />
+          {/* <Tabs>
               <Tab isActive={chartMatch !== null}>
                 <Link to={`/${coinId}/chart`}>Chart</Link>
               </Tab>
@@ -288,9 +220,8 @@ function Coin() {
                 <Chart coinId={coinId} />
               </Route>
             </Switch> */}
-          </TabsBox>
-        </BoxContainer>
-      )}
+        </TabsBox>
+      </BoxContainer>
     </Container>
   );
 }
