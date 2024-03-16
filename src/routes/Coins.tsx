@@ -239,7 +239,13 @@ function Coins() {
                       currency: key.split("-")[0],
                       symblo: coinInfo?.market.split("-")[1],
                       trade_date: coinData[key].trade_date,
+                      opening_price: coinData[key].opening_price,
                       prev_closing_price: coinData[key].prev_closing_price,
+                      high_price: coinData[key].high_price,
+                      low_price: coinData[key].low_price,
+                      trade_time: coinData[key].trade_time,
+                      trade_timestamp: coinData[key].trade_timestamp,
+                      trade_volume: coinData[key].trade_volume,
                     },
                   }}
                 >

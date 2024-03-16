@@ -141,6 +141,12 @@ export interface RouteState {
   currency: string;
   trade_date: number;
   prev_closing_price: number;
+  opening_price: number;
+  high_price: number;
+  low_price: number;
+  trade_time: number;
+  trade_timestamp: number;
+  trade_volume: number;
 }
 
 function Coin() {
@@ -174,29 +180,33 @@ function Coin() {
               <p>Trade Date:</p>
               <p>{state?.trade_date}</p>
             </OverviewItem>
+          </Overview>
+          <Overview>
             <OverviewItem>
-              <p>Max Supply:</p>
-              <p></p>
+              <p>opening_price:</p>
+              <p>{state?.opening_price}</p>
+            </OverviewItem>
+            <OverviewItem>
+              <p>high_price:</p>
+              <p>{state?.high_price}</p>
+            </OverviewItem>
+            <OverviewItem>
+              <p>low_price:</p>
+              <p>{state?.low_price}</p>
             </OverviewItem>
           </Overview>
           <Overview>
             <OverviewItem>
-              <p>Symbol:</p>
-              <p>{state?.symblo}</p>
+              <p>trade_time:</p>
+              <p>{state?.trade_time}</p>
             </OverviewItem>
             <OverviewItem>
-              <p>Price:</p>
-              <p>
-                {state?.price}
-                {state?.currency}
-              </p>
+              <p>trade_timestamp:</p>
+              <p>{state?.trade_timestamp}</p>
             </OverviewItem>
             <OverviewItem>
-              <p>Trade Date:</p>
-              <p>{state?.trade_date}</p>
-            </OverviewItem>
-            <OverviewItem>
-              <p>Max Supply:</p>
+              <p>trade_volume:</p>
+              <p>{state?.trade_volume}</p>
             </OverviewItem>
           </Overview>
         </OverviewBox>
