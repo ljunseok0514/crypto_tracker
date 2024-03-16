@@ -269,7 +269,7 @@ function Coins() {
                       {coinData[key].change === "FALL" && "- "}
                       {coinData[key].change_rate}%
                     </CoinInfoChangePrice>
-                    {coinData[key].ask_bid}
+                    {/* {coinData[key].change} */}
                   </CoinInfoBox>
                 </Link>
               </Coin>

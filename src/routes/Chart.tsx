@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { fetchCoinHistory } from "./api";
 import ApexChart from "react-apexcharts";
 import styled from "styled-components";
-import RouteState from "./Coin";
+import { RouteState } from "./Coin";
 
 const ApexChartBox = styled.div`
   padding: 10px;
@@ -53,7 +53,7 @@ function Chart({ state }: ChartProps) {
   return (
     <div>
       <>
-        <ApexChartBox>
+        {/* <ApexChartBox>
           {" "}
           <ApexChart
             type="line"
@@ -108,7 +108,7 @@ function Chart({ state }: ChartProps) {
               },
             }}
           />
-        </ApexChartBox>
+        </ApexChartBox> */}
         {/* <ApexChartBox>
             <ApexChart
               type="candlestick"

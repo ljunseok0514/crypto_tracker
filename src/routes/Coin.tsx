@@ -202,7 +202,7 @@ function Coin() {
         </OverviewBox>
 
         <TabsBox>
-          <Chart state={state} />
+          {/* <Chart state={state} /> */}
           {/* <Tabs>
               <Tab isActive={chartMatch !== null}>
                 <Link to={`/${coinId}/chart`}>Chart</Link>
