@@ -14,6 +14,7 @@ import { fetchCoinInfo, fetchCoinTickers, fetchCoinList } from "./api";
 import Chart from "./Chart";
 import Price from "./Price";
 import arrowBack from "../assets/arrow_back_white_24dp.svg";
+import { CoinData } from "./Coins";
 
 const Header = styled.header`
   height: 45px;
@@ -149,8 +150,15 @@ export interface RouteState {
   trade_volume: number;
 }
 
-function Coin() {
+interface CoinProps {
+  key: string;
+  coinSocket: any; // 여기에 해당 타입을 추가
+  children: React.ReactNode; // `any` 대신 더 구체적인 타입을 사용하는 것이 좋습니다.
+}
+
+function Coin({ coinSocket, children }: any) {
   const { state } = useLocation<RouteState>();
+  console.log(coinSocket);
 
   return (
     <Container>
@@ -171,10 +179,7 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <p>Price:</p>
-              <p>
-                {state?.price}
-                {state?.currency}
-              </p>
+              <p>{coinSocket.trade_price}</p>
             </OverviewItem>
             <OverviewItem>
               <p>Trade Date:</p>

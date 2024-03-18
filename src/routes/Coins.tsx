@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 import { v4 as uuid } from "uuid";
 import coinImg from "../assets/coin.png";
 
-interface CoinData {
+export interface CoinData {
   type: string;
   code: string;
   opening_price: number;
@@ -155,7 +155,7 @@ interface ICoinList {
 function Coins() {
   const { isLoading: coinListLoading, data: coinListData } = useQuery<
     ICoinList[]
-  >(["test"], fetchCoinList);
+  >("CoinList", fetchCoinList);
 
   const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
 
@@ -226,7 +226,7 @@ function Coins() {
             const coinInfo = coinListData?.find((item) => item.market === key); // testData에서 현재 key에 해당하는 객체의 english_name을 찾습니다.
             const coinCodeName = coinInfo ? coinInfo.english_name : key; // key가 testData의 id와 일치한다고 가정합니다.
             return (
-              <Coin key={key}>
+              <Coin key={key} coinSocket={coinData[key]}>
                 <Link
                   to={{
                     pathname: `/${coinData[key].code}`,
