@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 import { v4 as uuid } from "uuid";
 import coinImg from "../assets/coin.png";
 
-export interface CoinData {
+interface CoinData {
   type: string;
   code: string;
   opening_price: number;
@@ -83,7 +83,7 @@ const CoinsList = styled.ul`
   }
 `;
 
-const Coin = styled.li`
+const StyledCoin = styled.li`
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border-radius: 15px;
@@ -226,27 +226,10 @@ function Coins() {
             const coinInfo = coinListData?.find((item) => item.market === key); // testData에서 현재 key에 해당하는 객체의 english_name을 찾습니다.
             const coinCodeName = coinInfo ? coinInfo.english_name : key; // key가 testData의 id와 일치한다고 가정합니다.
             return (
-              <Coin key={key} coinSocket={coinData[key]}>
+              <StyledCoin key={key}>
                 <Link
                   to={{
                     pathname: `/${coinData[key].code}`,
-                    state: {
-                      name: coinData[key].code,
-                      price: coinData[key].trade_price.toLocaleString("en-US", {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 17,
-                      }),
-                      currency: key.split("-")[0],
-                      symblo: coinInfo?.market.split("-")[1],
-                      trade_date: coinData[key].trade_date,
-                      opening_price: coinData[key].opening_price,
-                      prev_closing_price: coinData[key].prev_closing_price,
-                      high_price: coinData[key].high_price,
-                      low_price: coinData[key].low_price,
-                      trade_time: coinData[key].trade_time,
-                      trade_timestamp: coinData[key].trade_timestamp,
-                      trade_volume: coinData[key].trade_volume,
-                    },
                   }}
                 >
                   <CoinTitle>
@@ -278,7 +261,7 @@ function Coins() {
                     {/* {coinData[key].change} */}
                   </CoinInfoBox>
                 </Link>
-              </Coin>
+              </StyledCoin>
             );
           })}
         </CoinsList>

@@ -135,31 +135,94 @@ interface RouteParams {
   coinId: string;
 }
 
-export interface RouteState {
-  name: string;
-  price: number;
-  symblo: string;
-  currency: string;
-  trade_date: number;
-  prev_closing_price: number;
+interface CoinData {
+  type: string;
+  code: string;
   opening_price: number;
   high_price: number;
   low_price: number;
-  trade_time: number;
-  trade_timestamp: number;
+  trade_price: number;
+  prev_closing_price: number;
+  acc_trade_price: number;
+  change: string;
+  change_price: number;
+  signed_change_price: number;
+  change_rate: number;
+  signed_change_rate: number;
+  ask_bid: string;
   trade_volume: number;
+  acc_trade_volume: number;
+  trade_date: string;
+  trade_time: string;
+  trade_timestamp: number;
+  acc_ask_volume: number;
+  acc_bid_volume: number;
+  highest_52_week_price: number;
+  highest_52_week_date: string;
+  lowest_52_week_price: number;
+  lowest_52_week_date: string;
+  market_state: string;
+  is_trading_suspended: boolean;
+  delisting_date: any;
+  market_warning: string;
+  timestamp: number;
+  acc_trade_price_24h: number;
+  acc_trade_volume_24h: number;
+  stream_type: string;
 }
+function Coin() {
+  const { coinId } = useParams<RouteParams>();
+  const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
+  useEffect(() => {
+    //데이터를 불러오기 전에 에러 방지를 위해 논리 부정 연산자로 조건문 작성
+    if (!coinListData) {
+      return;
+    }
+    const codes = coinListData
+      ?.slice(0, 100)
+      .filter((item) => item !== undefined)
+      .map((item) => item.market);
+    try {
+      const ws = new WebSocket("wss://api.upbit.com/websocket/v1");
+      ws.binaryType = "arraybuffer";
 
-interface CoinProps {
-  key: string;
-  coinSocket: any; // 여기에 해당 타입을 추가
-  children: React.ReactNode; // `any` 대신 더 구체적인 타입을 사용하는 것이 좋습니다.
-}
+      ws.onopen = () => {
+        const sendData = JSON.stringify([
+          { ticket: uuid() },
+          {
+            type: "ticker",
+            codes, // 요청 코인리스트
+          },
+        ]);
+        ws.send(sendData);
+      };
 
-function Coin({ coinSocket, children }: any) {
-  const { state } = useLocation<RouteState>();
-  console.log(coinSocket);
+      ws.onmessage = (e: any) => {
+        const encode = new TextDecoder("utf-8");
+        const data = JSON.parse(encode.decode(e.data));
 
+        setCoinData((coinData) => {
+          const newCoinData = JSON.parse(JSON.stringify(coinData)); // deep copy
+          newCoinData[data.code] = data;
+          return newCoinData;
+        });
+      };
+
+      ws.onerror = (e: any) => {
+        if (ws.OPEN === ws.readyState) {
+          ws.close();
+        }
+      };
+
+      return () => {
+        if (ws.OPEN === ws.readyState) {
+          ws.close();
+        }
+      };
+    } catch (e) {
+      return () => {};
+    }
+  }, [coinListLoading, coinListData]);
   return (
     <Container>
       <Helmet>
@@ -175,11 +238,10 @@ function Coin({ coinSocket, children }: any) {
           <Overview>
             <OverviewItem>
               <p>Symbol:</p>
-              <p>{state?.symblo}</p>
             </OverviewItem>
             <OverviewItem>
               <p>Price:</p>
-              <p>{coinSocket.trade_price}</p>
+              {/* <p>{coinSocket.trade_price}</p> */}
             </OverviewItem>
             <OverviewItem>
               <p>Trade Date:</p>
