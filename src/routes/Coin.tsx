@@ -1,5 +1,4 @@
-import { useQuery } from "react-query";
-
+import { v4 as uuid } from "uuid";
 import { Helmet } from "react-helmet";
 import {
   Switch,
@@ -14,7 +13,7 @@ import { fetchCoinInfo, fetchCoinTickers, fetchCoinList } from "./api";
 import Chart from "./Chart";
 import Price from "./Price";
 import arrowBack from "../assets/arrow_back_white_24dp.svg";
-import { CoinData } from "./Coins";
+import { useEffect, useState } from "react";
 
 const Header = styled.header`
   height: 45px;
@@ -173,15 +172,13 @@ interface CoinData {
 function Coin() {
   const { coinId } = useParams<RouteParams>();
   const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
+
   useEffect(() => {
     //데이터를 불러오기 전에 에러 방지를 위해 논리 부정 연산자로 조건문 작성
-    if (!coinListData) {
-      return;
-    }
-    const codes = coinListData
-      ?.slice(0, 100)
-      .filter((item) => item !== undefined)
-      .map((item) => item.market);
+    // if (!coinData) {
+    //   return;
+    // }
+
     try {
       const ws = new WebSocket("wss://api.upbit.com/websocket/v1");
       ws.binaryType = "arraybuffer";
@@ -191,7 +188,7 @@ function Coin() {
           { ticket: uuid() },
           {
             type: "ticker",
-            codes, // 요청 코인리스트
+            codes: [coinId], // 요청 코인리스트
           },
         ]);
         ws.send(sendData);
@@ -222,14 +219,15 @@ function Coin() {
     } catch (e) {
       return () => {};
     }
-  }, [coinListLoading, coinListData]);
+  }, [coinId]);
+  console.log(coinData);
   return (
     <Container>
       <Helmet>
-        <title>{state?.name}</title>
+        <title>{coinId}</title>
       </Helmet>
       <Header>
-        <Title>{state?.name}</Title>
+        <Title>{coinId}</Title>
       </Header>
       <StyledLink to="/"></StyledLink>
 
@@ -241,39 +239,39 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <p>Price:</p>
-              {/* <p>{coinSocket.trade_price}</p> */}
+              <p>{coinId}</p>
             </OverviewItem>
             <OverviewItem>
               <p>Trade Date:</p>
-              <p>{state?.trade_date}</p>
+              <p>{coinData[coinId].trade_date}</p>
             </OverviewItem>
           </Overview>
           <Overview>
             <OverviewItem>
               <p>opening_price:</p>
-              <p>{state?.opening_price}</p>
+              {/* <p>{state?.opening_price}</p> */}
             </OverviewItem>
             <OverviewItem>
               <p>high_price:</p>
-              <p>{state?.high_price}</p>
+              {/* <p>{state?.high_price}</p> */}
             </OverviewItem>
             <OverviewItem>
               <p>low_price:</p>
-              <p>{state?.low_price}</p>
+              {/* <p>{state?.low_price}</p> */}
             </OverviewItem>
           </Overview>
           <Overview>
             <OverviewItem>
               <p>trade_time:</p>
-              <p>{state?.trade_time}</p>
+              {/* <p>{state?.trade_time}</p> */}
             </OverviewItem>
             <OverviewItem>
               <p>trade_timestamp:</p>
-              <p>{state?.trade_timestamp}</p>
+              {/* <p>{state?.trade_timestamp}</p> */}
             </OverviewItem>
             <OverviewItem>
               <p>trade_volume:</p>
-              <p>{state?.trade_volume}</p>
+              {/* <p>{state?.trade_volume}</p> */}
             </OverviewItem>
           </Overview>
         </OverviewBox>

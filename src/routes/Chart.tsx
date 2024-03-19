@@ -2,7 +2,6 @@ import { useQuery } from "react-query";
 import { fetchCoinHistory } from "./api";
 import ApexChart from "react-apexcharts";
 import styled from "styled-components";
-import { RouteState } from "./Coin";
 
 const ApexChartBox = styled.div`
   padding: 10px;
@@ -33,14 +32,10 @@ export interface IHistoryical {
 }
 
 interface ChartProps {
-  state: RouteState;
-}
-
-interface ChartProps {
   coinId: string;
 }
 
-function Chart({ state }: ChartProps) {
+function Chart() {
   // const mappedOhlcvData = data?.map((price) => ({
   //   x: new Date(price.time_close * 1000).toUTCString(),
   //   y: [
