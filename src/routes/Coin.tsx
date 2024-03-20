@@ -14,6 +14,7 @@ import Chart from "./Chart";
 import Price from "./Price";
 import arrowBack from "../assets/arrow_back_white_24dp.svg";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 const Header = styled.header`
   height: 45px;
@@ -45,6 +46,16 @@ const StyledLink = styled(Link)`
   height: 24px;
   width: 24px;
   background: url(${arrowBack}) no-repeat center;
+`;
+
+const Loader = styled.span`
+  text-align: center;
+  display: block;
+  color: rgb(90, 97, 122);
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 20px 0;
 `;
 
 const media = {
@@ -169,16 +180,13 @@ interface CoinData {
   acc_trade_volume_24h: number;
   stream_type: string;
 }
+
 function Coin() {
   const { coinId } = useParams<RouteParams>();
+  const [loading, setLoading] = useState(true);
   const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
 
   useEffect(() => {
-    //데이터를 불러오기 전에 에러 방지를 위해 논리 부정 연산자로 조건문 작성
-    // if (!coinData) {
-    //   return;
-    // }
-
     try {
       const ws = new WebSocket("wss://api.upbit.com/websocket/v1");
       ws.binaryType = "arraybuffer";
@@ -201,6 +209,7 @@ function Coin() {
         setCoinData((coinData) => {
           const newCoinData = JSON.parse(JSON.stringify(coinData)); // deep copy
           newCoinData[data.code] = data;
+          setLoading(false);
           return newCoinData;
         });
       };
@@ -220,7 +229,6 @@ function Coin() {
       return () => {};
     }
   }, [coinId]);
-  console.log(coinData);
   return (
     <Container>
       <Helmet>
@@ -230,55 +238,65 @@ function Coin() {
         <Title>{coinId}</Title>
       </Header>
       <StyledLink to="/"></StyledLink>
+      {loading ? (
+        <Loader>Loading Coin Info...</Loader>
+      ) : (
+        <BoxContainer>
+          <OverviewBox>
+            <Overview>
+              <OverviewItem>
+                <p>Symbol:</p>
+                {/* <p>{coinListData?[].market.split("-")[1]}</p> */}
+                <p>{coinData[coinId]?.code.split("-")[1]}</p>
+              </OverviewItem>
+              <OverviewItem>
+                <p>Price:</p>
+                <p>
+                  {coinData[coinId].trade_price.toLocaleString("en-US", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 17,
+                  })}
+                  {coinId.split("-")[0]}
+                </p>
+              </OverviewItem>
+              <OverviewItem>
+                <p>Trade Date:</p>
+                <p>{coinData[coinId]?.trade_date}</p>
+              </OverviewItem>
+            </Overview>
+            <Overview>
+              <OverviewItem>
+                <p>opening_price:</p>
+                <p>{coinData[coinId]?.opening_price}</p>
+              </OverviewItem>
+              <OverviewItem>
+                <p>high_price:</p>
+                <p>{coinData[coinId]?.high_price}</p>
+              </OverviewItem>
+              <OverviewItem>
+                <p>low_price:</p>
+                <p>{coinData[coinId]?.low_price}</p>
+              </OverviewItem>
+            </Overview>
+            <Overview>
+              <OverviewItem>
+                <p>trade_time:</p>
+                <p>{coinData[coinId]?.trade_time}</p>
+              </OverviewItem>
+              <OverviewItem>
+                <p>trade_timestamp:</p>
+                <p>{coinData[coinId]?.trade_timestamp}</p>
+              </OverviewItem>
+              <OverviewItem>
+                <p>trade_volume:</p>
+                <p>{coinData[coinId]?.trade_volume}</p>
+              </OverviewItem>
+            </Overview>
+          </OverviewBox>
 
-      <BoxContainer>
-        <OverviewBox>
-          <Overview>
-            <OverviewItem>
-              <p>Symbol:</p>
-            </OverviewItem>
-            <OverviewItem>
-              <p>Price:</p>
-              <p>{coinId}</p>
-            </OverviewItem>
-            <OverviewItem>
-              <p>Trade Date:</p>
-              <p>{coinData[coinId].trade_date}</p>
-            </OverviewItem>
-          </Overview>
-          <Overview>
-            <OverviewItem>
-              <p>opening_price:</p>
-              {/* <p>{state?.opening_price}</p> */}
-            </OverviewItem>
-            <OverviewItem>
-              <p>high_price:</p>
-              {/* <p>{state?.high_price}</p> */}
-            </OverviewItem>
-            <OverviewItem>
-              <p>low_price:</p>
-              {/* <p>{state?.low_price}</p> */}
-            </OverviewItem>
-          </Overview>
-          <Overview>
-            <OverviewItem>
-              <p>trade_time:</p>
-              {/* <p>{state?.trade_time}</p> */}
-            </OverviewItem>
-            <OverviewItem>
-              <p>trade_timestamp:</p>
-              {/* <p>{state?.trade_timestamp}</p> */}
-            </OverviewItem>
-            <OverviewItem>
-              <p>trade_volume:</p>
-              {/* <p>{state?.trade_volume}</p> */}
-            </OverviewItem>
-          </Overview>
-        </OverviewBox>
-
-        <TabsBox>
-          {/* <Chart state={state} /> */}
-          {/* <Tabs>
+          <TabsBox>
+            {/* <Chart state={state} /> */}
+            {/* <Tabs>
               <Tab isActive={chartMatch !== null}>
                 <Link to={`/${coinId}/chart`}>Chart</Link>
               </Tab>
@@ -295,8 +313,9 @@ function Coin() {
                 <Chart coinId={coinId} />
               </Route>
             </Switch> */}
-        </TabsBox>
-      </BoxContainer>
+          </TabsBox>
+        </BoxContainer>
+      )}
     </Container>
   );
 }
