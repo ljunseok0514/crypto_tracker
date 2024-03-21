@@ -99,16 +99,23 @@ const Overview = styled.div`
 const OverviewItem = styled.div`
   text-align: center;
   p:first-child {
-    color: rgb(90, 97, 122);
-    font-size: 12px;
+    color: rgb(123, 133, 167);
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     padding-bottom: 10px;
   }
   P:last-child {
     padding-bottom: 30px;
-    font-size: 18px;
+    font-size: 20px;
   }
+`;
+
+const Currency = styled.span`
+  color: rgb(90, 97, 122);
+  font-size: 12px;
+  font-weight: 400;
+  margin-left: 4px;
 `;
 
 const Tabs = styled.div`
@@ -256,7 +263,7 @@ function Coin() {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 17,
                   })}
-                  {coinId.split("-")[0]}
+                  <Currency>{coinId.split("-")[0]}</Currency>
                 </p>
               </OverviewItem>
               <OverviewItem>
@@ -267,15 +274,33 @@ function Coin() {
             <Overview>
               <OverviewItem>
                 <p>opening_price:</p>
-                <p>{coinData[coinId]?.opening_price}</p>
+                <p>
+                  {coinData[coinId]?.opening_price.toLocaleString("en-US", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 17,
+                  })}
+                  <Currency>{coinId.split("-")[0]}</Currency>
+                </p>
               </OverviewItem>
               <OverviewItem>
                 <p>high_price:</p>
-                <p>{coinData[coinId]?.high_price}</p>
+                <p>
+                  {coinData[coinId]?.high_price.toLocaleString("en-US", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 17,
+                  })}
+                  <Currency>{coinId.split("-")[0]}</Currency>
+                </p>
               </OverviewItem>
               <OverviewItem>
                 <p>low_price:</p>
-                <p>{coinData[coinId]?.low_price}</p>
+                <p>
+                  {coinData[coinId]?.low_price.toLocaleString("en-US", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 17,
+                  })}
+                  <Currency>{coinId.split("-")[0]}</Currency>
+                </p>
               </OverviewItem>
             </Overview>
             <Overview>
