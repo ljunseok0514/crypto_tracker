@@ -11,14 +11,23 @@ export async function fetchCoinList() {
   );
 }
 
-export function fetchCoinInfo(coinId: string) {
-  return fetch(`${BASE_URL}/coins/${coinId}`).then((response) =>
-    response.json()
-  );
+export function fetchCoinDaysAgo(coinId: string) {
+  const options = { method: "GET", headers: { accept: "application/json" } };
+
+  return fetch(
+    `https://api.upbit.com/v1/trades/ticks?market=${coinId}&count=1&daysAgo=7' `,
+    options
+  ).then((response) => response.json());
 }
 
 export function fetchCoinTickers(coinId: string) {
   return fetch(`${BASE_URL}/tickers/${coinId}`).then((response) =>
+    response.json()
+  );
+}
+
+export function fetchCoinInfo(coinId: string) {
+  return fetch(`${BASE_URL}/coins/${coinId}`).then((response) =>
     response.json()
   );
 }

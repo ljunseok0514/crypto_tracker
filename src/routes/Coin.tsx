@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinInfo, fetchCoinTickers, fetchCoinList } from "./api";
+import { fetchCoinInfo, fetchCoinList, fetchCoinDaysAgo } from "./api";
 import Chart from "./Chart";
 import Price from "./Price";
 import arrowBack from "../assets/arrow_back_white_24dp.svg";
@@ -188,11 +188,25 @@ interface CoinData {
   stream_type: string;
 }
 
+interface ICoinDaysAgo {
+  market: string;
+  trade_date_utc: string;
+  trade_time_utc: string;
+  timestamp: number;
+  trade_price: number;
+  trade_volume: number;
+  prev_closing_price: number;
+  chane_price: number;
+  ask_bid: string;
+}
+
 function Coin() {
   const { coinId } = useParams<RouteParams>();
   const [loading, setLoading] = useState(true);
   const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
-
+  const { isLoading: coinDaysAgoLoading, data: coinDaysAgoData } =
+    useQuery<ICoinDaysAgo>(["tickers", coinId], () => fetchCoinDaysAgo(coinId));
+  console.log(coinDaysAgoLoading);
   useEffect(() => {
     try {
       const ws = new WebSocket("wss://api.upbit.com/websocket/v1");
