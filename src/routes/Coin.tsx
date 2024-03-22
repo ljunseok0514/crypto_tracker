@@ -206,7 +206,7 @@ function Coin() {
   const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
   const { isLoading: coinDaysAgoLoading, data: coinDaysAgoData } =
     useQuery<ICoinDaysAgo>(["tickers", coinId], () => fetchCoinDaysAgo(coinId));
-  console.log(coinDaysAgoLoading);
+  console.log(coinDaysAgoData);
   useEffect(() => {
     try {
       const ws = new WebSocket("wss://api.upbit.com/websocket/v1");

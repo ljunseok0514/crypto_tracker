@@ -15,7 +15,7 @@ export function fetchCoinDaysAgo(coinId: string) {
   const options = { method: "GET", headers: { accept: "application/json" } };
 
   return fetch(
-    `https://api.upbit.com/v1/trades/ticks?market=${coinId}&count=1&daysAgo=7' `,
+    `https://api.upbit.com/v1/candles/minutes/5?market=${coinId}&count=7`,
     options
   ).then((response) => response.json());
 }
