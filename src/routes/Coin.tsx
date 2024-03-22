@@ -188,25 +188,30 @@ interface CoinData {
   stream_type: string;
 }
 
-interface ICoinDaysAgo {
+export interface ICoinDaysAgo {
   market: string;
-  trade_date_utc: string;
-  trade_time_utc: string;
-  timestamp: number;
+  candle_date_time_utc: string;
+  candle_date_time_kst: string;
+  opening_price: number;
+  high_price: number;
+  low_price: number;
   trade_price: number;
-  trade_volume: number;
+  timestamp: number;
+  candle_acc_trade_price: number;
+  candle_acc_trade_volume: number;
   prev_closing_price: number;
-  chane_price: number;
-  ask_bid: string;
+  change_price: number;
+  change_rate: number;
 }
 
 function Coin() {
   const { coinId } = useParams<RouteParams>();
   const [loading, setLoading] = useState(true);
   const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
-  const { isLoading: coinDaysAgoLoading, data: coinDaysAgoData } =
-    useQuery<ICoinDaysAgo>(["tickers", coinId], () => fetchCoinDaysAgo(coinId));
-  console.log(coinDaysAgoData);
+  const { isLoading: coinDaysAgoLoading, data: coinDaysAgoData } = useQuery<
+    ICoinDaysAgo[]
+  >(["tickers", coinId], () => fetchCoinDaysAgo(coinId));
+  const chartData = coinDaysAgoData ?? [];
   useEffect(() => {
     try {
       const ws = new WebSocket("wss://api.upbit.com/websocket/v1");
@@ -334,24 +339,11 @@ function Coin() {
           </OverviewBox>
 
           <TabsBox>
-            {/* <Chart state={state} /> */}
-            {/* <Tabs>
-              <Tab isActive={chartMatch !== null}>
-                <Link to={`/${coinId}/chart`}>Chart</Link>
-              </Tab>
-              <Tab isActive={priceMatch !== null}>
-                <Link to={`/${coinId}/price`}>Price</Link>
-              </Tab>
-            </Tabs>
-
-            <Switch>
-              <Route path={`/:coinId/price`}>
-                <Price coinId={coinId} />
-              </Route>
-              <Route path={`/:coinId/chart`}>
-                <Chart coinId={coinId} />
-              </Route>
-            </Switch> */}
+            {coinDaysAgoLoading ? (
+              <Loader>Loading Coin Info...</Loader>
+            ) : (
+              <Chart coinDaysAgoData={coinDaysAgoData ? coinDaysAgoData : []} />
+            )}
           </TabsBox>
         </BoxContainer>
       )}
