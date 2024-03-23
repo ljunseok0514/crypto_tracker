@@ -59,13 +59,12 @@ const Loader = styled.span`
 `;
 
 const media = {
-  tablet: `@media(max-width:767px)`,
-  moblie: `@media(min-width:480px)`,
+  mobile: `@media(max-width:767px)`,
 };
 
 const OverviewBox = styled.div`
   display: flex;
-  ${media.tablet} {
+  ${media.mobile} {
     display: block;
     width: 100%;
     padding-right: 0;
@@ -85,7 +84,7 @@ const Overview = styled.div`
   &:last-child {
     margin-left: 5px;
   }
-  ${media.tablet} {
+  ${media.mobile} {
     display: block;
     width: 100%;
     &:first-child {
@@ -118,35 +117,9 @@ const Currency = styled.span`
   margin-left: 4px;
 `;
 
-const Tabs = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  margin: 0 0 14px 0;
-  gap: 10px;
-`;
-
-const Tab = styled.span<{ isActive: boolean }>`
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  color: ${(props) =>
-    props.isActive ? props.theme.accentColor : props.theme.textColor};
-  a {
-    padding: 10px;
-    display: block;
-  }
-`;
-
 const BoxContainer = styled.div``;
 
-const TabsBox = styled.div`
-  ${media.tablet} {
-    width: 100%;
-  }
-`;
+const TabsBox = styled.div``;
 
 interface RouteParams {
   coinId: string;

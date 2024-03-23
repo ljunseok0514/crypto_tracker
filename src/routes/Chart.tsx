@@ -4,11 +4,41 @@ import ApexChart from "react-apexcharts";
 import styled from "styled-components";
 import { ICoinDaysAgo } from "./Coin";
 
+const media = {
+  moblie: `@media(max-width:767px)`,
+};
+
+const ApexChartBoxContainer = styled.div`
+  display: flex;
+  ${media.moblie} {
+    display: block;
+    width: 100%;
+    padding-right: 0;
+  }
+`;
+
 const ApexChartBox = styled.div`
+  width: 50%;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   margin-bottom: 10px;
+  &:first-child {
+    margin-right: 5px;
+  }
+  &:last-child {
+    margin-left: 5px;
+  }
+  ${media.moblie} {
+    display: block;
+    width: 100%;
+    &:first-child {
+      margin-right: 0px;
+    }
+    &:last-child {
+      margin-left: 0px;
+    }
+  }
 `;
 
 const Loader = styled.div`
@@ -52,66 +82,122 @@ function Chart({ coinDaysAgoData }: ChartProps) {
   //   ],
   // }));
   return (
-    <div>
-      <>
-        <ApexChartBox>
-          <ApexChart
-            type="line"
-            series={[
-              {
-                name: "Price",
-                data: coinDaysAgoData?.map((props) => props.prev_closing_price),
-                // data: [1, 2, 3, 4, 5],
-              },
-            ]}
-            options={{
-              theme: { mode: "dark" },
-              chart: {
-                height: 200,
-                width: 300,
-                toolbar: { show: false },
-                background: "tratransparent",
-              },
-              grid: { show: false },
-              stroke: {
-                curve: "smooth",
-                width: 4,
-              },
-              yaxis: {
+    <ApexChartBoxContainer>
+      <ApexChartBox>
+        <ApexChart
+          type="line"
+          series={[
+            {
+              name: "Price",
+              data: coinDaysAgoData?.map((props) => props.prev_closing_price),
+              // data: [1, 2, 3, 4, 5],
+            },
+          ]}
+          options={{
+            theme: { mode: "dark" },
+            chart: {
+              height: 200,
+              width: 300,
+              toolbar: { show: false },
+              background: "tratransparent",
+            },
+            grid: { show: false },
+            stroke: {
+              curve: "smooth",
+              width: 4,
+            },
+            yaxis: {
+              show: false,
+            },
+            xaxis: {
+              axisTicks: {
                 show: false,
               },
-              xaxis: {
-                axisTicks: {
-                  show: false,
-                },
-                axisBorder: {
-                  show: false,
-                },
-                // type: "datetime",
-                // categories: coinDaysAgoData?.map((price) =>
-                //   new Date(
-                //     Number(price.candle_date_time_utc) * 1000
-                //   ).toUTCString()
-                // ),
-                // labels: {
-                //   show: false,
-                //   datetimeFormatter: { month: "mmm 'yy" },
-                // },
+              axisBorder: {
+                show: false,
               },
-              fill: {
-                type: "gradient",
-                gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
+              // type: "datetime",
+              // categories: coinDaysAgoData?.map((price) =>
+              //   new Date(
+              //     Number(price.candle_date_time_utc) * 1000
+              //   ).toUTCString()
+              // ),
+              // labels: {
+              //   show: false,
+              //   datetimeFormatter: { month: "mmm 'yy" },
+              // },
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
+            },
+            colors: ["#0fbcf9"],
+            tooltip: {
+              y: {
+                formatter: (value) => `$ ${value.toFixed(2)}`,
               },
-              colors: ["#0fbcf9"],
-              tooltip: {
-                y: {
-                  formatter: (value) => `$ ${value.toFixed(2)}`,
-                },
+            },
+          }}
+        />
+      </ApexChartBox>
+      <ApexChartBox>
+        <ApexChart
+          type="line"
+          series={[
+            {
+              name: "Price",
+              data: coinDaysAgoData?.map((props) => props.prev_closing_price),
+              // data: [1, 2, 3, 4, 5],
+            },
+          ]}
+          options={{
+            theme: { mode: "dark" },
+            chart: {
+              height: 200,
+              width: 1100,
+              toolbar: { show: false },
+              background: "tratransparent",
+            },
+            grid: { show: false },
+            stroke: {
+              curve: "smooth",
+              width: 4,
+            },
+            yaxis: {
+              show: false,
+            },
+            xaxis: {
+              axisTicks: {
+                show: false,
               },
-            }}
-          />
-        </ApexChartBox>
-        {/* <ApexChartBox>
+              axisBorder: {
+                show: false,
+              },
+              // type: "datetime",
+              // categories: coinDaysAgoData?.map((price) =>
+              //   new Date(
+              //     Number(price.candle_date_time_utc) * 1000
+              //   ).toUTCString()
+              // ),
+              // labels: {
+              //   show: false,
+              //   datetimeFormatter: { month: "mmm 'yy" },
+              // },
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
+            },
+            colors: ["#0fbcf9"],
+            tooltip: {
+              y: {
+                formatter: (value) => `$ ${value.toFixed(2)}`,
+              },
+            },
+          }}
+        />
+      </ApexChartBox>
+      {/* <ApexChartBox>
             <ApexChart
               type="candlestick"
               series={
@@ -161,8 +247,7 @@ function Chart({ coinDaysAgoData }: ChartProps) {
               }}
             />
           </ApexChartBox> */}
-      </>
-    </div>
+    </ApexChartBoxContainer>
   );
 }
 
