@@ -258,7 +258,6 @@ function Coins() {
                       {coinData[key].change === "FALL" && "- "}
                       {coinData[key].change_rate}%
                     </CoinInfoChangePrice>
-                    {/* {coinData[key].change} */}
                   </CoinInfoBox>
                 </Link>
               </StyledCoin>

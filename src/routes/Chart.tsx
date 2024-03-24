@@ -1,4 +1,3 @@
-import { useQuery } from "react-query";
 import { fetchCoinHistory } from "./api";
 import ApexChart from "react-apexcharts";
 import styled from "styled-components";
@@ -67,8 +66,6 @@ interface ChartProps {
 }
 
 function Chart({ coinDaysAgoData }: ChartProps) {
-  // console.log(coinDaysAgoData[0].prev_closing_price);
-  // console.log(coinDaysAgoData);
   coinDaysAgoData.forEach((item) =>
     console.log(typeof item.prev_closing_price, item.prev_closing_price)
   );
