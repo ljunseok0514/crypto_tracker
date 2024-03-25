@@ -66,9 +66,6 @@ interface ChartProps {
 }
 
 function Chart({ coinDaysAgoData }: ChartProps) {
-  coinDaysAgoData.forEach((item) =>
-    console.log(typeof item.prev_closing_price, item.prev_closing_price)
-  );
   // const mappedOhlcvData = data?.map((price) => ({
   //   x: new Date(price.time_close * 1000).toUTCString(),
   //   y: [
@@ -87,7 +84,6 @@ function Chart({ coinDaysAgoData }: ChartProps) {
             {
               name: "Price",
               data: coinDaysAgoData?.map((props) => props.prev_closing_price),
-              // data: [1, 2, 3, 4, 5],
             },
           ]}
           options={{
@@ -103,26 +99,20 @@ function Chart({ coinDaysAgoData }: ChartProps) {
               curve: "smooth",
               width: 4,
             },
-            yaxis: {
-              show: false,
-            },
+            // yaxis: {
+            //   show: false,
+            // },
             xaxis: {
               axisTicks: {
-                show: false,
+                // show: false,
               },
               axisBorder: {
                 show: false,
               },
-              // type: "datetime",
-              // categories: coinDaysAgoData?.map((price) =>
-              //   new Date(
-              //     Number(price.candle_date_time_utc) * 1000
-              //   ).toUTCString()
-              // ),
-              // labels: {
-              //   show: false,
-              //   datetimeFormatter: { month: "mmm 'yy" },
-              // },
+              type: "datetime",
+              categories: coinDaysAgoData?.map((price) =>
+                new Date(price.candle_date_time_utc).toUTCString()
+              ),
             },
             fill: {
               type: "gradient",
@@ -131,7 +121,9 @@ function Chart({ coinDaysAgoData }: ChartProps) {
             colors: ["#0fbcf9"],
             tooltip: {
               y: {
-                formatter: (value) => `$ ${value.toFixed(2)}`,
+                formatter: (value) =>
+                  `${value}${coinDaysAgoData[0].market.split("-")[0]}
+                  `,
               },
             },
           }}
@@ -188,7 +180,7 @@ function Chart({ coinDaysAgoData }: ChartProps) {
             colors: ["#0fbcf9"],
             tooltip: {
               y: {
-                formatter: (value) => `$ ${value.toFixed(2)}`,
+                formatter: (value) => ` ${value.toFixed(2)}`,
               },
             },
           }}
