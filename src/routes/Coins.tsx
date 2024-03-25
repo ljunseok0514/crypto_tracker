@@ -230,6 +230,7 @@ function Coins() {
                 <Link
                   to={{
                     pathname: `/${coinData[key].code}`,
+                    state: { coinCodeName: coinCodeName },
                   }}
                 >
                   <CoinTitle>

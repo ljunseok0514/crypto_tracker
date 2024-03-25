@@ -121,6 +121,10 @@ const BoxContainer = styled.div``;
 
 const TabsBox = styled.div``;
 
+interface RouteState {
+  coinCodeName: string;
+}
+
 interface RouteParams {
   coinId: string;
 }
@@ -179,6 +183,7 @@ export interface ICoinDaysAgo {
 
 function Coin() {
   const { coinId } = useParams<RouteParams>();
+  const { state } = useLocation<RouteState>();
   const [loading, setLoading] = useState(true);
   const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
   const { isLoading: coinDaysAgoLoading, data: coinDaysAgoData } = useQuery<
@@ -231,10 +236,22 @@ function Coin() {
   return (
     <Container>
       <Helmet>
-        <title>{coinData[coinId]?.code}</title>
+        <title>
+          {state?.coinCodeName
+            ? state.coinCodeName
+            : loading
+            ? "Coin Info"
+            : coinData[coinId]?.code}
+        </title>
       </Helmet>
       <Header>
-        <Title>{coinId}</Title>
+        <Title>
+          {state?.coinCodeName
+            ? state.coinCodeName
+            : loading
+            ? "Price Info"
+            : coinData[coinId]?.code}
+        </Title>
       </Header>
       <StyledLink to="/"></StyledLink>
       {loading ? (
@@ -245,7 +262,6 @@ function Coin() {
             <Overview>
               <OverviewItem>
                 <p>Symbol:</p>
-                {/* <p>{coinListData?[].market.split("-")[1]}</p> */}
                 <p>{coinData[coinId]?.code.split("-")[1]}</p>
               </OverviewItem>
               <OverviewItem>
@@ -313,7 +329,7 @@ function Coin() {
 
           <TabsBox>
             {coinDaysAgoLoading ? (
-              <Loader>Loading Coin Info...</Loader>
+              <Loader>Loading Coin Chart...</Loader>
             ) : (
               <Chart coinDaysAgoData={coinDaysAgoData ? coinDaysAgoData : []} />
             )}
