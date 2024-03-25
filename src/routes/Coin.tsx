@@ -231,7 +231,7 @@ function Coin() {
   return (
     <Container>
       <Helmet>
-        <title>{coinId}</title>
+        <title>{coinData[coinId]?.code}</title>
       </Helmet>
       <Header>
         <Title>{coinId}</Title>

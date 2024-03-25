@@ -234,7 +234,7 @@ function Coins() {
                 >
                   <CoinTitle>
                     <Img
-                      src={`https://coinicons-api.vercel.app/api/icon/${key
+                      src={` https://coplore-icon-api.vercel.app/api/icons/${key
                         .split("-")[1]
                         .toLowerCase()}`}
                       onError={(e) => {
