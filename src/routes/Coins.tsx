@@ -106,8 +106,6 @@ const StyledCoin = styled.li<{ status: string }>`
   background-color: #061221;
   color: white;
   border-radius: 15px;
-  margin-bottom: 10px;
-
   a {
     display: block;
     padding: 20px;

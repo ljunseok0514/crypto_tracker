@@ -1,4 +1,4 @@
-import { fetchCoinHistory } from "./api";
+// import { fetchCoinHistory } from "./api";
 import ApexChart from "react-apexcharts";
 import styled from "styled-components";
 import { ICoinDaysAgo } from "./Coin";
@@ -40,15 +40,15 @@ const ApexChartBox = styled.div`
   }
 `;
 
-const Loader = styled.div`
-  text-align: center;
-  display: block;
-  color: rgb(90, 97, 122);
-  background-color: #061221;
-  border-radius: 10px;
-  margin-top: 10px;
-  padding: 20px 0;
-`;
+// const Loader = styled.div`
+//   text-align: center;
+//   display: block;
+//   color: rgb(90, 97, 122);
+//   background-color: #061221;
+//   border-radius: 10px;
+//   margin-top: 10px;
+//   padding: 20px 0;
+// `;
 
 export interface IHistoryical {
   time_open: number;
