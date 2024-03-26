@@ -83,26 +83,6 @@ const CoinsList = styled.ul`
   }
 `;
 
-const StyledCoin = styled.li`
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border-radius: 15px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  a {
-    padding: 20px;
-    transition: color 0.2s ease-in;
-    width: 100%;
-    height: 100%;
-  }
-  &:hover {
-    a {
-      color: ${(props) => props.theme.accentColor};
-    }
-  }
-`;
-
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -117,10 +97,61 @@ const CoinTitle = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  p {
+    font-size: 16px;
+    font-weight: 400;
+  }
+`;
+const StyledCoin = styled.li<{ status: string }>`
+  background-color: #061221;
+  color: white;
+  border-radius: 15px;
+  margin-bottom: 10px;
+
+  a {
+    display: block;
+    padding: 20px;
+
+    width: 100%;
+    height: 100%;
+  }
+  ${CoinTitle} {
+    transition: color 0.1s ease-in;
+  }
+  &:hover {
+    ${CoinTitle} {
+      color: ${(props) => {
+        switch (props.status) {
+          case "RISE":
+            return "#c84a31";
+          case "FALL":
+            return "#3862c4";
+          default:
+            return "#4dc94d";
+        }
+      }};
+    }
+  }
 `;
 
-const CoinInfoBox = styled.div`
-  text-align: right;
+const CoinInfoBox = styled.div<{ status: string }>`
+  text-align: left;
+  color: ${(props) => {
+    switch (props.status) {
+      case "RISE":
+        return "#c84a31";
+      case "FALL":
+        return "#3862c4";
+      default:
+        return "white"; // 기본 색상
+    }
+  }};
+  p:last-child {
+    margin-top: 4px;
+  }
+  ${media.moblie} {
+    margin: 0 auto;
+  }
 `;
 
 const Img = styled.img`
@@ -129,21 +160,14 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
-const CoinInfoChangePrice = styled.p<{ status: string }>`
-  color: ${(props) => {
-    switch (props.status) {
-      case "RISE":
-        return "green";
-      case "FALL":
-        return "red";
-      default:
-        return "white"; // 기본 색상
-    }
-  }};
+const Currency = styled.span`
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 4px;
 `;
 
 const CoinInfoTradePrice = styled.p`
-  font-size: 20px;
+  font-size: 26px;
   margin-bottom: 10px;
 `;
 
@@ -226,7 +250,7 @@ function Coins() {
             const coinInfo = coinListData?.find((item) => item.market === key); // testData에서 현재 key에 해당하는 객체의 english_name을 찾습니다.
             const coinCodeName = coinInfo ? coinInfo.english_name : key; // key가 testData의 id와 일치한다고 가정합니다.
             return (
-              <StyledCoin key={key}>
+              <StyledCoin key={key} status={coinData[key].change}>
                 <Link
                   to={{
                     pathname: `/${coinData[key].code}`,
@@ -246,19 +270,24 @@ function Coins() {
                     />
                     <p>{coinCodeName} &rarr;</p>
                   </CoinTitle>
-                  <CoinInfoBox>
+                  <CoinInfoBox status={coinData[key].change}>
                     <CoinInfoTradePrice>
                       {coinData[key].trade_price.toLocaleString("en-US", {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 17,
                       })}
-                      {key.split("-")[0]}
+                      <Currency>{key.split("-")[0]}</Currency>
                     </CoinInfoTradePrice>
-                    <CoinInfoChangePrice status={coinData[key].change}>
+                    <p>
                       {coinData[key].change === "RISE" && "+ "}
                       {coinData[key].change === "FALL" && "- "}
                       {coinData[key].change_rate}%
-                    </CoinInfoChangePrice>
+                    </p>
+                    <p>
+                      {coinData[key].change === "RISE" && "▲ "}
+                      {coinData[key].change === "FALL" && "▼ "}
+                      {coinData[key].change_price}
+                    </p>
                   </CoinInfoBox>
                 </Link>
               </StyledCoin>

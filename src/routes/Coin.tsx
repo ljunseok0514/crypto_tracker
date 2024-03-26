@@ -1,17 +1,10 @@
 import { v4 as uuid } from "uuid";
 import { Helmet } from "react-helmet";
-import {
-  Switch,
-  Route,
-  useLocation,
-  useParams,
-  useRouteMatch,
-} from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinInfo, fetchCoinList, fetchCoinDaysAgo } from "./api";
+import { fetchCoinDaysAgo } from "./api";
 import Chart from "./Chart";
-import Price from "./Price";
 import arrowBack from "../assets/arrow_back_white_24dp.svg";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -52,7 +45,7 @@ const Loader = styled.span`
   text-align: center;
   display: block;
   color: rgb(90, 97, 122);
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #061221;
   border-radius: 10px;
   margin-top: 10px;
   padding: 20px 0;
@@ -73,7 +66,7 @@ const OverviewBox = styled.div`
 
 const Overview = styled.div`
   width: 50%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #061221;
   padding: 30px 20px 0 20px;
   border-radius: 10px;
   margin-bottom: 10px;
@@ -95,7 +88,18 @@ const Overview = styled.div`
     }
   }
 `;
-const OverviewItem = styled.div`
+
+const OverviewItem = styled.div<{ status?: string }>`
+  color: ${(props) => {
+    switch (props.status) {
+      case "RISE":
+        return "#c84a31";
+      case "FALL":
+        return "#3862c4";
+      default:
+        return "white"; // 기본 색상
+    }
+  }};
   text-align: center;
   p:first-child {
     color: rgb(123, 133, 167);
@@ -104,17 +108,20 @@ const OverviewItem = styled.div`
     text-transform: uppercase;
     padding-bottom: 10px;
   }
-  P:last-child {
+  p:last-child {
     padding-bottom: 30px;
     font-size: 20px;
   }
 `;
 
 const Currency = styled.span`
-  color: rgb(90, 97, 122);
   font-size: 12px;
   font-weight: 400;
   margin-left: 4px;
+`;
+
+const CurrencyStatic = styled(Currency)`
+  color: #7a7a7a;
 `;
 
 const BoxContainer = styled.div``;
@@ -260,11 +267,7 @@ function Coin() {
         <BoxContainer>
           <OverviewBox>
             <Overview>
-              <OverviewItem>
-                <p>Symbol:</p>
-                <p>{coinData[coinId]?.code.split("-")[1]}</p>
-              </OverviewItem>
-              <OverviewItem>
+              <OverviewItem status={coinData[coinId].change}>
                 <p>Price:</p>
                 <p>
                   {coinData[coinId].trade_price.toLocaleString("en-US", {
@@ -274,55 +277,79 @@ function Coin() {
                   <Currency>{coinId.split("-")[0]}</Currency>
                 </p>
               </OverviewItem>
-              <OverviewItem>
-                <p>Trade Date:</p>
-                <p>{coinData[coinId]?.trade_date}</p>
+              <OverviewItem status={coinData[coinId].change}>
+                <p>Change:</p>
+                <p>
+                  {coinData[coinId].change === "RISE" && "+ "}
+                  {coinData[coinId].change === "FALL" && "- "}
+
+                  {coinData[coinId].change_rate}
+                  <Currency>%</Currency>
+                </p>
+              </OverviewItem>
+              <OverviewItem status={coinData[coinId].change}>
+                <p>Change price:</p>
+                <p>
+                  {coinData[coinId].change === "RISE" && "▲ "}
+                  {coinData[coinId].change === "FALL" && "▼ "}
+                  {coinData[coinId]?.change_price}
+                </p>
               </OverviewItem>
             </Overview>
             <Overview>
               <OverviewItem>
-                <p>opening_price:</p>
+                <p>trade timestamp:</p>
+                <p>
+                  {new Date(coinData[coinId]?.trade_timestamp).toLocaleString()}
+                </p>
+              </OverviewItem>
+              <OverviewItem>
+                <p>trade time:</p>
+                <p>{`${coinData[coinId]?.trade_time.slice(0, 2)}:${coinData[
+                  coinId
+                ]?.trade_time.slice(2, 4)}:${coinData[coinId]?.trade_time.slice(
+                  4,
+                  6
+                )}`}</p>
+              </OverviewItem>
+              <OverviewItem>
+                <p>trade volume:</p>
+                <p>
+                  {coinData[coinId]?.trade_volume}
+                  <CurrencyStatic>{coinId.split("-")[0]}</CurrencyStatic>
+                </p>
+              </OverviewItem>
+            </Overview>
+            <Overview>
+              <OverviewItem>
+                <p>opening price:</p>
                 <p>
                   {coinData[coinId]?.opening_price.toLocaleString("en-US", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 17,
                   })}
-                  <Currency>{coinId.split("-")[0]}</Currency>
+                  <CurrencyStatic>{coinId.split("-")[0]}</CurrencyStatic>
                 </p>
               </OverviewItem>
               <OverviewItem>
-                <p>high_price:</p>
+                <p>high price:</p>
                 <p>
                   {coinData[coinId]?.high_price.toLocaleString("en-US", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 17,
                   })}
-                  <Currency>{coinId.split("-")[0]}</Currency>
+                  <CurrencyStatic>{coinId.split("-")[0]}</CurrencyStatic>
                 </p>
               </OverviewItem>
               <OverviewItem>
-                <p>low_price:</p>
+                <p>low price:</p>
                 <p>
                   {coinData[coinId]?.low_price.toLocaleString("en-US", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 17,
                   })}
-                  <Currency>{coinId.split("-")[0]}</Currency>
+                  <CurrencyStatic>{coinId.split("-")[0]}</CurrencyStatic>
                 </p>
-              </OverviewItem>
-            </Overview>
-            <Overview>
-              <OverviewItem>
-                <p>trade_time:</p>
-                <p>{coinData[coinId]?.trade_time}</p>
-              </OverviewItem>
-              <OverviewItem>
-                <p>trade_timestamp:</p>
-                <p>{coinData[coinId]?.trade_timestamp}</p>
-              </OverviewItem>
-              <OverviewItem>
-                <p>trade_volume:</p>
-                <p>{coinData[coinId]?.trade_volume}</p>
               </OverviewItem>
             </Overview>
           </OverviewBox>
