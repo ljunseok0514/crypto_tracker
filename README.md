@@ -1,7 +1,9 @@
 # 📈Crypto tracker(암호화폐 시세 조회 서비스)
 + 이 프로젝트는 노마드코더 React JS 강의 내용 중 한 파트를 클론코딩 후 <strong>업그레이드(api변경, webSocket적용, css수정)</strong>한 작업물입니다.
 
-
+## 🖥프로젝트 미리보기
+<img style="height: 400px;" src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/83a2d97f-3999-49ed-8e30-1336e1ba5362">
+<img style="height: 400px;" src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/e57a1142-13bb-4014-830b-b16a9fa26b1f">
 
 ## 🗂프로젝트 소개
 - **프로젝트 이름** : Crypto tracker
@@ -27,3 +29,22 @@
   </ol>
 - **프로젝트 기간** : 240227 ~ 240326
 - **배포 주소** : https://crypto-tracker-eight-alpha.vercel.app/
+
+## 📝기술 스택
+<span><img src="https://img.shields.io/badge/react-61DAFB?style=flat-square&logo=react&logoColor=white"/></span>
+<span><img src="https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typescript&logoColor=white"/></span>
+<span><img src="https://img.shields.io/badge/styledcomponents-DB7093?style=flat-square&logo=styledcomponents&logoColor=black"/></span>
+<span><img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat-square&logo=javascript&logoColor=black"/></span>
+<span><img src="https://img.shields.io/badge/html5-E34F26?style=flat-square&logo=html5&logoColor=white"/></span>
+<span><img src="https://img.shields.io/badge/css3-1572B6?style=flat-square&logo=css3&logoColor=white"/></span>
+
+
+
+
+
+## ⚙️설치 방법
+```bash
+git clone https://github.com/ljunseok0514/crypto_tracker.git
+cd crypto_tracker
+npm install
+npm start
