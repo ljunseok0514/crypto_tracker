@@ -15,17 +15,12 @@
     <li>
       <p>현재 거래 중인 코인 100개의 시세, 상승율, 하락율 출력
       </p>
-      <p>-React Query를 사용해 거래 중인 코인 100개 목록 WebSocket으로 전달 후 정보 실시간 출력</p>
+      <p>-WebSocket 통신으로 코인정보 실시간 요청, 응답</p>
     </li>
     <li>
-      <p>클릭한 코인 상세정보(거래시간, 시작가, 최고가, 최저가)출력
+    <p>코인정보 데이터 캔들차트, 라인차트로 시각화
       </p>
-      <p>-선택한 코인 항목 react-router-dom Link 라이브러리로 WebSocket에 전달해서 정보 실시간 출력</p>
-    </li>
-    <li>
-    <p>데이터 캔들차트, 라인차트로 시각화
-      </p>
-      <p>-ApexChart 라이브러리에 데이터 전달 후 차트화
+      <p>-ApexChart 사용
       </p>
     </li>
   </ol>
@@ -46,7 +41,6 @@
     <li>
       <p><strong>목적: </strong>코인정보를 한눈에 보기 편한 레이아웃 변경과 디바이스별 반응형 레이아웃 작업</p>
       <p><strong>결과: </strong></p>
-      <p>-container width 변경 및 grid, flex를 사용하여 좁은 레이아웃과 제한적 정보 UI 노출<strong> → </strong>레이아웃이 더 넓어져 보기편하고, 한 줄에 더 많은 정보 UI를 노출 시킬 수 있음</p>
       <p>-media-query 작업으로 디바이스별 똑같은 레이아웃<strong> → </strong> PC, tablet, moblie 별로 레이아웃이 반응형으로 변경되서 사용자 친화적인 UI로 변경</p>
       </li>
   </ol>
