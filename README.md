@@ -25,22 +25,22 @@
     </li>
   </ol>
 
-- **프로젝트 목적과 결과** :
+- **프로젝트 도전과 성과** :
   <ol>
     <li>
-      <p><strong>목적: </strong>강의에서 사용한 API들이 부분 유료변경과 서비스가 종료되어 발생한 에러를 해결하기</p>
-      <p><strong>결과: </strong></p>
+      <p><strong>도전: </strong>강의에서 사용한 API들이 부분 유료변경과 서비스가 종료되어 발생한 에러를 해결하기</p>
+      <p><strong>성과: </strong></p>
       <p>-코인시세 정보 api를 WebSocket으로 변경해 코인시세정보 조회 횟수제한<strong> → </strong>무제한 실시간으로 조회</p>
       <p>-코인 아이콘 이미지 api 변경해 파일 유실, 횟수제한<strong> → </strong>모든 아이콘 이미지 유실없이 무제한 반환받음</p>
     </li>
     <li>
-      <p><strong>목적: </strong>코인시세 하락, 상승에 따라 변경되는 색상과 기호의 변화</p>
-      <p><strong>결과: </strong></p>
+      <p><strong>도전: </strong>코인시세 하락, 상승에 따라 변경되는 색상과 기호의 변화</p>
+      <p><strong>성과: </strong></p>
       <p>-코인시세 상승, 하락 시 css변화 없음 <strong> → </strong>가격정보 텍스트 코인시세 상승 시 빨간색으로 변경과 ▲기호 표기, 하락 시 파란색으로 변경과 ▼기호 표기해 직관적인 UI가 생성됨</p>
       </li>
     <li>
-      <p><strong>목적: </strong>코인정보를 한눈에 보기 편한 레이아웃 변경과 디바이스별 반응형 레이아웃 작업</p>
-      <p><strong>결과: </strong></p>
+      <p><strong>도전: </strong>코인정보를 한눈에 보기 편한 레이아웃 변경과 디바이스별 반응형 레이아웃 작업</p>
+      <p><strong>성과: </strong></p>
       <p>-media-query 작업으로 디바이스별 똑같은 레이아웃<strong> → </strong> PC, tablet, moblie 별로 레이아웃이 반응형으로 변경되서 사용자 친화적인 UI로 변경</p>
       </li>
   </ol>

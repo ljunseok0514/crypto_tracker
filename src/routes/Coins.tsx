@@ -265,6 +265,7 @@ function Coins() {
                         target.onerror = null; // 중복 에러 방지
                         target.src = coinImg; // 기본 이미지로 대체
                       }}
+                      alt="코인아이콘"
                     />
                     <p>{coinCodeName} &rarr;</p>
                   </CoinTitle>
