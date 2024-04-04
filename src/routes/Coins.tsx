@@ -103,7 +103,7 @@ const CoinTitle = styled.div`
   }
 `;
 const StyledCoin = styled.li<{ status: string }>`
-  background-color: white;
+  background-color: #061221;
   color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   a {
@@ -141,7 +141,7 @@ const CoinInfoBox = styled.div<{ status: string }>`
       case "FALL":
         return "#3862c4";
       default:
-        return "black"; // 기본 색상
+        return "white"; // 기본 색상
     }
   }};
   p:last-child {
