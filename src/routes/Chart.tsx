@@ -19,7 +19,7 @@ const ApexChartBoxContainer = styled.div`
 const ApexChartBox = styled.div`
   width: 50%;
   padding: 10px;
-  background-color: #061221;
+  background-color: ${(props) => props.theme.cardBgColor};
   border-radius: 10px;
   margin-bottom: 10px;
   &:first-child {
@@ -63,9 +63,10 @@ export interface IHistoryical {
 
 interface ChartProps {
   coinDaysAgoData: ICoinDaysAgo[];
+  isDark: boolean;
 }
 
-function Chart({ coinDaysAgoData }: ChartProps) {
+function Chart({ coinDaysAgoData, isDark }: ChartProps) {
   const mappedOhlcvData = coinDaysAgoData?.map((price) => ({
     x: new Date(price.candle_date_time_utc).toUTCString(),
     y: [
@@ -88,7 +89,7 @@ function Chart({ coinDaysAgoData }: ChartProps) {
             ] as unknown as number[]
           }
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               type: "candlestick",
               height: 350,
@@ -136,7 +137,7 @@ function Chart({ coinDaysAgoData }: ChartProps) {
             },
           ]}
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               height: 200,
               width: 300,

@@ -54,7 +54,7 @@ const Header = styled.header`
   display: flex;
   justify-content: left;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardBgColor};
   border-radius: 10px;
   margin: 40px 0 10px 0;
   padding-left: 20px;
@@ -62,7 +62,7 @@ const Header = styled.header`
 
 const Title = styled.h1`
   font-size: 18px;
-  color: white;
+  color: black;
 `;
 
 const media = {
@@ -103,9 +103,10 @@ const CoinTitle = styled.div`
   }
 `;
 const StyledCoin = styled.li<{ status: string }>`
-  background-color: #061221;
+  background-color: ${(props) => props.theme.cardBgColor};
   color: ${(props) => props.theme.textColor};
   border-radius: 15px;
+  border: 1px solid white;
   a {
     display: block;
     padding: 20px;
@@ -141,7 +142,7 @@ const CoinInfoBox = styled.div<{ status: string }>`
       case "FALL":
         return "#3862c4";
       default:
-        return "white"; // 기본 색상
+        return "black"; // 기본 색상
     }
   }};
   p:last-child {
@@ -174,7 +175,11 @@ interface ICoinList {
   english_name: string;
 }
 
-function Coins() {
+interface ICoinsProps {
+  toggleDark: () => void;
+}
+
+function Coins({ toggleDark }: ICoinsProps) {
   const { isLoading: coinListLoading, data: coinListData } = useQuery<
     ICoinList[]
   >("CoinList", fetchCoinList);
@@ -239,6 +244,7 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>Crypto List</Title>
+        <button onClick={toggleDark}>Toggle Dark Mode</button>
       </Header>
       {coinListLoading ? (
         <Loader>"Crypto List Loading..." </Loader>

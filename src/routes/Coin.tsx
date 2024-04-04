@@ -14,14 +14,14 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardBgColor};
   border-radius: 10px;
   margin: 40px 0 10px 0;
 `;
 
 const Title = styled.h1`
   font-size: 18px;
-  color: white;
+  color: black;
 `;
 
 const Container = styled.div`
@@ -66,7 +66,7 @@ const OverviewBox = styled.div`
 
 const Overview = styled.div`
   width: 50%;
-  background-color: #061221;
+  background-color: ${(props) => props.theme.cardBgColor};
   padding: 30px 20px 0 20px;
   border-radius: 10px;
   margin-bottom: 10px;
@@ -97,7 +97,7 @@ const OverviewItem = styled.div<{ status?: string }>`
       case "FALL":
         return "#3862c4";
       default:
-        return "white"; // 기본 색상
+        return "black"; // 기본 색상
     }
   }};
   text-align: center;
@@ -188,7 +188,11 @@ export interface ICoinDaysAgo {
   change_rate: number;
 }
 
-function Coin() {
+interface ICoinProps {
+  isDark: boolean;
+}
+
+function Coin({ isDark }: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const [loading, setLoading] = useState(true);
@@ -358,7 +362,10 @@ function Coin() {
             {coinDaysAgoLoading ? (
               <Loader>Loading Coin Chart...</Loader>
             ) : (
-              <Chart coinDaysAgoData={coinDaysAgoData ? coinDaysAgoData : []} />
+              <Chart
+                isDark={isDark}
+                coinDaysAgoData={coinDaysAgoData ? coinDaysAgoData : []}
+              />
             )}
           </TabsBox>
         </BoxContainer>
