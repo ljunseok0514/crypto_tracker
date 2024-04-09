@@ -50,6 +50,12 @@
       <p><strong>성과: </strong></p>
       <p>-media-query 작업으로 디바이스별 똑같은 레이아웃<strong> → </strong> PC, tablet, moblie 별로 레이아웃이 반응형으로 변경되서 사용자 친화적인 UI로 변경</p>
       </li>
+    <li>
+      <p><strong>도전: </strong>프로젝트 성능 최적화</p>
+      <p><strong>성과: </strong></p>
+      <p>-Lighthouse를 통해 애플리케이션의 성능을 모니터링</p>
+      <p>-aria-label속성 추가, 시멘틱한 마크업으로 수정 후 접근성 점수 76점  → 100점</p>
+      </li>
   </ol>
 - **프로젝트 기간** : 240227 ~ 240410
 - **배포 주소** : https://crypto-tracker-eight-alpha.vercel.app/
