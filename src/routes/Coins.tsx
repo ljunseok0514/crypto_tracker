@@ -6,7 +6,7 @@ import { fetchCoinList } from "./api";
 import { Helmet } from "react-helmet";
 import { v4 as uuid } from "uuid";
 import coinImg from "../assets/coin.png";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isDarkAtom } from "../atoms";
 
 interface CoinData {
@@ -54,17 +54,28 @@ const Container = styled.div`
 const Header = styled.header`
   height: 5vh;
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
   background-color: ${(props) => props.theme.cardBgColor};
   border-radius: 10px;
   margin: 40px 0 10px 0;
-  padding-left: 20px;
+  padding: 0 20px;
 `;
 
 const Title = styled.h1`
+display: block
   font-size: 18px;
-  color: black;
+  color: ${(props) => props.theme.textColor};
+`;
+
+const ModeBox = styled.div``;
+
+const ModeButton = styled.button`
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: ${(props) => props.theme.textColor};
+  background-color: ${(props) => props.theme.modeBtnBgColor};
 `;
 
 const media = {
@@ -88,8 +99,8 @@ const CoinsList = styled.ul`
 const Loader = styled.span`
   text-align: center;
   display: block;
-  color: rgb(90, 97, 122);
-  background-color: rgba(0, 0, 0, 0.5);
+  color: ${(props) => props.theme.textColor};
+  background-color: ${(props) => props.theme.cardBgColor};
   border-radius: 10px;
   margin-top: 10px;
   padding: 20px 0;
@@ -108,7 +119,6 @@ const StyledCoin = styled.li<{ status: string }>`
   background-color: ${(props) => props.theme.cardBgColor};
   color: ${(props) => props.theme.textColor};
   border-radius: 15px;
-  border: 1px solid white;
   a {
     display: block;
     padding: 20px;
@@ -135,7 +145,16 @@ const StyledCoin = styled.li<{ status: string }>`
   }
 `;
 
-const CoinInfoBox = styled.div<{ status: string }>`
+interface Theme {
+  textColor: string;
+}
+
+interface Props {
+  status?: string;
+  theme: Theme;
+}
+
+const CoinInfoBox = styled.div<Props>`
   text-align: left;
   color: ${(props) => {
     switch (props.status) {
@@ -144,7 +163,7 @@ const CoinInfoBox = styled.div<{ status: string }>`
       case "FALL":
         return "#3862c4";
       default:
-        return "black"; // 기본 색상
+        return props.theme.textColor; // 기본 색상
     }
   }};
   p:last-child {
@@ -180,6 +199,7 @@ interface ICoinList {
 function Coins() {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
   const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+  const isDark = useRecoilValue(isDarkAtom);
   const { isLoading: coinListLoading, data: coinListData } = useQuery<
     ICoinList[]
   >("CoinList", fetchCoinList);
@@ -244,7 +264,11 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>Crypto List</Title>
-        <button onClick={toggleDarkAtom}>Toggle Mode</button>
+        <ModeBox>
+          <ModeButton onClick={toggleDarkAtom}>
+            {isDark ? "🌚 Dark Mode" : "🌞 Light Mode"}
+          </ModeButton>
+        </ModeBox>
       </Header>
       {coinListLoading ? (
         <Loader>"Crypto List Loading..." </Loader>

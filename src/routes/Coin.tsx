@@ -5,9 +5,12 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinDaysAgo } from "./api";
 import Chart from "./Chart";
-import arrowBack from "../assets/arrow_back_white_24dp.svg";
+import arrowBackBlack from "../assets/arrow_back_black_24dp.svg";
+import arrowBackWhite from "../assets/arrow_back_white_24dp.svg";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Header = styled.header`
   height: 45px;
@@ -21,7 +24,7 @@ const Header = styled.header`
 
 const Title = styled.h1`
   font-size: 18px;
-  color: black;
+  color: ${(props) => props.theme.textColor};
 `;
 
 const Container = styled.div`
@@ -31,21 +34,27 @@ const Container = styled.div`
   position: relative;
 `;
 
-const StyledLink = styled(Link)`
+interface IsDarkProps {
+  isDark: boolean;
+}
+
+const StyledLink = styled(Link)<IsDarkProps>`
   position: absolute;
   cursor: pointer;
   left: 30px;
   top: 11px;
   height: 24px;
   width: 24px;
-  background: url(${arrowBack}) no-repeat center;
+  background: url(${(props) =>
+      props.isDark ? arrowBackBlack : arrowBackWhite})
+    no-repeat center;
 `;
 
 const Loader = styled.span`
   text-align: center;
   display: block;
-  color: rgb(90, 97, 122);
-  background-color: #061221;
+  color: ${(props) => props.theme.textColor};
+  background-color: ${(props) => props.theme.cardBgColor};
   border-radius: 10px;
   margin-top: 10px;
   padding: 20px 0;
@@ -89,7 +98,16 @@ const Overview = styled.div`
   }
 `;
 
-const OverviewItem = styled.div<{ status?: string }>`
+interface Theme {
+  textColor: string;
+}
+
+interface Props {
+  status?: string;
+  theme: Theme;
+}
+
+const OverviewItem = styled.div<Props>`
   color: ${(props) => {
     switch (props.status) {
       case "RISE":
@@ -97,7 +115,7 @@ const OverviewItem = styled.div<{ status?: string }>`
       case "FALL":
         return "#3862c4";
       default:
-        return "black"; // 기본 색상
+        return props.theme.textColor; // 기본 색상
     }
   }};
   text-align: center;
@@ -189,6 +207,7 @@ export interface ICoinDaysAgo {
 }
 
 function Coin() {
+  const isDark = useRecoilValue(isDarkAtom);
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const [loading, setLoading] = useState(true);
@@ -196,7 +215,6 @@ function Coin() {
   const { isLoading: coinDaysAgoLoading, data: coinDaysAgoData } = useQuery<
     ICoinDaysAgo[]
   >(["tickers", coinId], () => fetchCoinDaysAgo(coinId));
-  console.log(coinDaysAgoData);
   useEffect(() => {
     try {
       const ws = new WebSocket("wss://api.upbit.com/websocket/v1");
@@ -260,7 +278,11 @@ function Coin() {
             : coinData[coinId]?.code}
         </Title>
       </Header>
-      <StyledLink to="/" aria-label="홈으로 돌아가기"></StyledLink>
+      <StyledLink
+        isDark={isDark}
+        to="/"
+        aria-label="홈으로 돌아가기"
+      ></StyledLink>
       {loading ? (
         <Loader>Loading Coin Info...</Loader>
       ) : (
