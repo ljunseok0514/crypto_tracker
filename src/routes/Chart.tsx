@@ -2,6 +2,8 @@
 import ApexChart from "react-apexcharts";
 import styled from "styled-components";
 import { ICoinDaysAgo } from "./Coin";
+import { isDarkAtom } from "../atoms";
+import { useRecoilValue } from "recoil";
 
 const media = {
   moblie: `@media(max-width:767px)`,
@@ -63,10 +65,11 @@ export interface IHistoryical {
 
 interface ChartProps {
   coinDaysAgoData: ICoinDaysAgo[];
-  isDark: boolean;
 }
 
-function Chart({ coinDaysAgoData, isDark }: ChartProps) {
+function Chart({ coinDaysAgoData }: ChartProps) {
+  const isDark = useRecoilValue(isDarkAtom);
+
   const mappedOhlcvData = coinDaysAgoData?.map((price) => ({
     x: new Date(price.candle_date_time_utc).toUTCString(),
     y: [

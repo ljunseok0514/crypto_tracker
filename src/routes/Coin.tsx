@@ -188,11 +188,7 @@ export interface ICoinDaysAgo {
   change_rate: number;
 }
 
-interface ICoinProps {
-  isDark: boolean;
-}
-
-function Coin({ isDark }: ICoinProps) {
+function Coin() {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const [loading, setLoading] = useState(true);
@@ -264,7 +260,7 @@ function Coin({ isDark }: ICoinProps) {
             : coinData[coinId]?.code}
         </Title>
       </Header>
-      <StyledLink to="/"></StyledLink>
+      <StyledLink to="/" aria-label="홈으로 돌아가기"></StyledLink>
       {loading ? (
         <Loader>Loading Coin Info...</Loader>
       ) : (
@@ -362,10 +358,7 @@ function Coin({ isDark }: ICoinProps) {
             {coinDaysAgoLoading ? (
               <Loader>Loading Coin Chart...</Loader>
             ) : (
-              <Chart
-                isDark={isDark}
-                coinDaysAgoData={coinDaysAgoData ? coinDaysAgoData : []}
-              />
+              <Chart coinDaysAgoData={coinDaysAgoData ? coinDaysAgoData : []} />
             )}
           </TabsBox>
         </BoxContainer>

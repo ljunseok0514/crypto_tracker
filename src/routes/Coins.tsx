@@ -6,6 +6,8 @@ import { fetchCoinList } from "./api";
 import { Helmet } from "react-helmet";
 import { v4 as uuid } from "uuid";
 import coinImg from "../assets/coin.png";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface CoinData {
   type: string;
@@ -175,11 +177,9 @@ interface ICoinList {
   english_name: string;
 }
 
-interface ICoinsProps {
-  toggleDark: () => void;
-}
-
-function Coins({ toggleDark }: ICoinsProps) {
+function Coins() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading: coinListLoading, data: coinListData } = useQuery<
     ICoinList[]
   >("CoinList", fetchCoinList);
@@ -244,7 +244,7 @@ function Coins({ toggleDark }: ICoinsProps) {
       </Helmet>
       <Header>
         <Title>Crypto List</Title>
-        <button onClick={toggleDark}>Toggle Dark Mode</button>
+        <button onClick={toggleDarkAtom}>Toggle Mode</button>
       </Header>
       {coinListLoading ? (
         <Loader>"Crypto List Loading..." </Loader>
