@@ -1,11 +1,12 @@
 # 📈Crypto tracker(암호화폐 시세 조회 서비스)
 
-- 이 프로젝트는 노마드코더 React JS 강의 내용 중 한 파트를 클론코딩 후 <strong>업그레이드(api변경, WebSocket적용, css수정)</strong>한 작업물입니다.
+이 프로젝트는 노마드코더 React JS 강의 내용 중 한 파트를 클론코딩 후 <strong>업그레이드(api변경, WebSocket적용, css수정)</strong>한 작업물입니다.
 
 ## 🖥프로젝트 미리보기
-
-<img style="height: 400px;" src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/83a2d97f-3999-49ed-8e30-1336e1ba5362">
-<img style="height: 400px;" src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/e57a1142-13bb-4014-830b-b16a9fa26b1f">
+<img style="height: 350px;" src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/f03f26ac-3f6f-4d1c-b9cc-459d59860cc9">
+<img style="height: 350px;"  src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/f5e2ac0e-2cb0-463c-b2b6-19ce522680f4">
+<img style="height: 350px;"  src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/b39d9552-5f10-4835-9353-f4d2f1cf5927">
+<img style="height: 350px;" src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/72c03bd6-9cb2-4cbb-9463-9c8e8ea8e6af">
 
 ## 🗂프로젝트 소개
 
@@ -16,6 +17,12 @@
       <p>현재 거래 중인 코인 100개의 시세, 상승율, 하락율 출력
       </p>
       <p>-WebSocket 통신으로 코인정보 실시간 요청, 응답</p>
+    </li>
+    <li>
+    <p>라이트모드, 다크모드 전환
+      </p>
+      <p>-Recoil을 활용하여 글로벌 상태 관리 기법 적용
+      </p>
     </li>
     <li>
     <p>코인정보 데이터 캔들차트, 라인차트로 시각화
@@ -44,7 +51,7 @@
       <p>-media-query 작업으로 디바이스별 똑같은 레이아웃<strong> → </strong> PC, tablet, moblie 별로 레이아웃이 반응형으로 변경되서 사용자 친화적인 UI로 변경</p>
       </li>
   </ol>
-- **프로젝트 기간** : 240227 ~ 240326
+- **프로젝트 기간** : 240227 ~ 240410
 - **배포 주소** : https://crypto-tracker-eight-alpha.vercel.app/
 
 ## 📝기술 스택
