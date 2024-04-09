@@ -92,7 +92,7 @@ function Chart({ coinDaysAgoData }: ChartProps) {
             ] as unknown as number[]
           }
           options={{
-            theme: { mode: isDark ? "dark" : "light" },
+            theme: { mode: isDark ? "light" : "dark" },
             chart: {
               type: "candlestick",
               height: 350,
@@ -140,7 +140,7 @@ function Chart({ coinDaysAgoData }: ChartProps) {
             },
           ]}
           options={{
-            theme: { mode: isDark ? "dark" : "light" },
+            theme: { mode: isDark ? "light" : "dark" },
             chart: {
               height: 200,
               width: 300,
