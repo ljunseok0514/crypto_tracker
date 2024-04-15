@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinDaysAgo } from "../api/api";
-import Chart from "./Chart";
+import Chart from "../components/Chart";
 import arrowBackBlack from "../assets/arrow_back_black_24dp.svg";
 import arrowBackWhite from "../assets/arrow_back_white_24dp.svg";
 import { useEffect, useState } from "react";
