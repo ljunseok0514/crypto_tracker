@@ -1,67 +1,8 @@
-// import { fetchCoinHistory } from "./api";
 import ApexChart from "react-apexcharts";
-import styled from "styled-components";
-import { ICoinDaysAgo } from "../pages/Coin";
-import { isDarkAtom } from "../atoms";
+import { isDarkAtom } from "../../../store/atom/atoms";
 import { useRecoilValue } from "recoil";
-
-const media = {
-  moblie: `@media(max-width:767px)`,
-};
-
-const ApexChartBoxContainer = styled.div`
-  display: flex;
-  ${media.moblie} {
-    display: block;
-    width: 100%;
-    padding-right: 0;
-  }
-`;
-
-const ApexChartBox = styled.div`
-  width: 50%;
-  padding: 10px;
-  background-color: ${(props) => props.theme.cardBgColor};
-  border-radius: 10px;
-  margin-bottom: 10px;
-  &:first-child {
-    margin-right: 5px;
-  }
-  &:last-child {
-    margin-left: 5px;
-  }
-  ${media.moblie} {
-    display: block;
-    width: 100%;
-    &:first-child {
-      margin-right: 0px;
-    }
-    &:last-child {
-      margin-left: 0px;
-    }
-  }
-`;
-
-// const Loader = styled.div`
-//   text-align: center;
-//   display: block;
-//   color: rgb(90, 97, 122);
-//   background-color: #061221;
-//   border-radius: 10px;
-//   margin-top: 10px;
-//   padding: 20px 0;
-// `;
-
-export interface IHistoryical {
-  time_open: number;
-  time_close: number;
-  open: string;
-  high: string;
-  low: string;
-  close: string;
-  volume: string;
-  market_cap: number;
-}
+import { ICoinDaysAgo } from "../../../interface/ICoinDaysAgo.type";
+import { ApexChartBox, ApexChartBoxContainer } from "./Chart.styled";
 
 interface ChartProps {
   coinDaysAgoData: ICoinDaysAgo[];

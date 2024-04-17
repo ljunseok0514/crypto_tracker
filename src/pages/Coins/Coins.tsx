@@ -1,195 +1,28 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { fetchCoinList } from "../api/api";
+import { fetchCoinList } from "../../api/api";
 import { Helmet } from "react-helmet";
 import { v4 as uuid } from "uuid";
-import coinImg from "../assets/coin.png";
+import coinImg from "../../assets/coin.png";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { isDarkAtom } from "../atoms";
-
-interface CoinData {
-  type: string;
-  code: string;
-  opening_price: number;
-  high_price: number;
-  low_price: number;
-  trade_price: number;
-  prev_closing_price: number;
-  acc_trade_price: number;
-  change: string;
-  change_price: number;
-  signed_change_price: number;
-  change_rate: number;
-  signed_change_rate: number;
-  ask_bid: string;
-  trade_volume: number;
-  acc_trade_volume: number;
-  trade_date: string;
-  trade_time: string;
-  trade_timestamp: number;
-  acc_ask_volume: number;
-  acc_bid_volume: number;
-  highest_52_week_price: number;
-  highest_52_week_date: string;
-  lowest_52_week_price: number;
-  lowest_52_week_date: string;
-  market_state: string;
-  is_trading_suspended: boolean;
-  delisting_date: any;
-  market_warning: string;
-  timestamp: number;
-  acc_trade_price_24h: number;
-  acc_trade_volume_24h: number;
-  stream_type: string;
-}
-
-const Container = styled.div`
-  padding: 0px 20px;
-  max-width: 1100px;
-  margin: 0 auto;
-`;
-
-const Header = styled.header`
-  height: 5vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: ${(props) => props.theme.cardBgColor};
-  border-radius: 10px;
-  margin: 40px 0 10px 0;
-  padding: 0 20px;
-`;
-
-const Title = styled.h1`
-display: block
-  font-size: 18px;
-  color: ${(props) => props.theme.textColor};
-`;
-
-const ModeBox = styled.div``;
-
-const ModeButton = styled.button`
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-  color: ${(props) => props.theme.textColor};
-  background-color: ${(props) => props.theme.modeBtnBgColor};
-`;
-
-const media = {
-  tablet: `@media(max-width:1024px)`,
-  moblie: `@media(max-width:767px)`,
-};
-
-const CoinsList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin: 14px 0px;
-  gap: 10px;
-  ${media.tablet} {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  ${media.moblie} {
-    grid-template-columns: repeat(1, 1fr);
-  }
-`;
-
-const Loader = styled.span`
-  text-align: center;
-  display: block;
-  color: ${(props) => props.theme.textColor};
-  background-color: ${(props) => props.theme.cardBgColor};
-  border-radius: 10px;
-  margin-top: 10px;
-  padding: 20px 0;
-`;
-
-const CoinTitle = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  p {
-    font-size: 16px;
-    font-weight: 400;
-  }
-`;
-const StyledCoin = styled.li<{ status: string }>`
-  background-color: ${(props) => props.theme.cardBgColor};
-  color: ${(props) => props.theme.textColor};
-  border-radius: 15px;
-  a {
-    display: block;
-    padding: 20px;
-
-    width: 100%;
-    height: 100%;
-  }
-  ${CoinTitle} {
-    transition: color 0.1s ease-in;
-  }
-  &:hover {
-    ${CoinTitle} {
-      color: ${(props) => {
-        switch (props.status) {
-          case "RISE":
-            return "#c84a31";
-          case "FALL":
-            return "#3862c4";
-          default:
-            return "#4dc94d";
-        }
-      }};
-    }
-  }
-`;
-
-interface Theme {
-  textColor: string;
-}
-
-interface Props {
-  status?: string;
-  theme: Theme;
-}
-
-const CoinInfoBox = styled.div<Props>`
-  text-align: left;
-  color: ${(props) => {
-    switch (props.status) {
-      case "RISE":
-        return "#c84a31";
-      case "FALL":
-        return "#3862c4";
-      default:
-        return props.theme.textColor; // 기본 색상
-    }
-  }};
-  p:last-child {
-    margin-top: 4px;
-  }
-  ${media.moblie} {
-    margin: 0 auto;
-  }
-`;
-
-const Img = styled.img`
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-`;
-
-const Currency = styled.span`
-  font-size: 14px;
-  font-weight: 400;
-  margin-left: 4px;
-`;
-
-const CoinInfoTradePrice = styled.p`
-  font-size: 26px;
-  margin-bottom: 10px;
-`;
+import { isDarkAtom } from "../../store/atom/atoms";
+import {
+  CoinInfoBox,
+  CoinInfoTradePrice,
+  CoinTitle,
+  CoinsList,
+  Container,
+  Currency,
+  Header,
+  Img,
+  ModeBox,
+  ModeButton,
+  StyledCoin,
+  Title,
+} from "./Coins.styled";
+import { CoinData } from "../../interface/CoinData.type";
+import Loader from "../../container/components/common/loader/Loader";
 
 interface ICoinList {
   market: string;
@@ -271,7 +104,7 @@ function Coins() {
         </ModeBox>
       </Header>
       {coinListLoading ? (
-        <Loader>"Crypto List Loading..." </Loader>
+        <Loader message="Crypto List Loading..." />
       ) : (
         <CoinsList>
           {Object.keys(coinData).map((key) => {
