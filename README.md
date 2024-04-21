@@ -3,6 +3,7 @@
 이 프로젝트는 노마드코더 React JS 강의 내용 중 한 파트를 클론코딩 후 <strong>업그레이드(api변경, WebSocket적용, css수정)</strong>한 작업물입니다.
 
 ## 🖥프로젝트 미리보기
+
 <img style="height: 350px;" src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/f03f26ac-3f6f-4d1c-b9cc-459d59860cc9">
 <img style="height: 350px;"  src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/f5e2ac0e-2cb0-463c-b2b6-19ce522680f4">
 <img style="height: 350px;"  src="https://github.com/ljunseok0514/crypto_tracker/assets/73566234/b39d9552-5f10-4835-9353-f4d2f1cf5927">
@@ -19,9 +20,21 @@
       <p>-WebSocket 통신으로 코인정보 실시간 요청, 응답</p>
     </li>
     <li>
-    <p>라이트모드, 다크모드 전환
+    <p>Recoil을 활용한 다크모드 전환기능
       </p>
-      <p>-Recoil을 활용하여 글로벌 상태 관리 기법 적용
+      <p>-Recoil의 Atom을 활용하여 Styled-Componenets의 테마 상태를 여러 컴포넌트와 동기화함. Redux나 Context API보다 더 간결하고 직관적으로 상태를 관리 가능
+      </p>
+    </li>
+    <li>
+    <p>ReactQuery로 페이지 로드시간 단축
+      </p>
+      <p>-코인 상세 페이지에서 메인화면으로 복귀시, ReactQuery를 통해 서버 상태 관리를 간소화 하고 데이터 캐싱을 통해 페이지 로드 시간을 단축
+      </p>
+    </li>
+    <li>
+    <p>Styled-Componenets으로 컴포넌트 단위 스타일링
+      </p>
+      <p>-Styled-Componenets을 도입함으로써 CSS-in-JS의 컴포넌트별 스타일링 관리 능력과 Utility-First CSS 방식의 제한적 커스터마이징 대비, 보다 세밀한 스타일 커스터마이제이션을 통해 고유한 디자인 시스템을 구축
       </p>
     </li>
     <li>
@@ -32,31 +45,6 @@
     </li>
   </ol>
 
-- **프로젝트 도전과 성과** :
-  <ol>
-    <li>
-      <p><strong>도전: </strong>기존 API가 부분 유료변경과 서비스가 종료되어 발생한 에러를 해결하기</p>
-      <p><strong>성과: </strong></p>
-      <p>-코인시세 정보 api를 WebSocket으로 변경해 코인시세정보 조회 횟수제한<strong> → </strong>무제한 실시간으로 조회</p>
-      <p>-코인 아이콘 이미지 api 변경해 파일 유실, 횟수제한<strong> → </strong>모든 아이콘 이미지 유실없이 무제한 반환받음</p>
-    </li>
-    <li>
-      <p><strong>도전: </strong>코인시세 하락, 상승에 따라 변경되는 색상과 기호의 변화</p>
-      <p><strong>성과: </strong></p>
-      <p>-코인시세 상승, 하락 시 css변화 없음 <strong> → </strong>가격정보 텍스트 코인시세 상승 시 빨간색으로 변경과 ▲기호 표기, 하락 시 파란색으로 변경과 ▼기호 표기해 직관적인 UI가 생성됨</p>
-      </li>
-    <li>
-      <p><strong>도전: </strong>코인정보를 한눈에 보기 편한 레이아웃 변경과 디바이스별 반응형 레이아웃 작업</p>
-      <p><strong>성과: </strong></p>
-      <p>-media-query 작업으로 디바이스별 똑같은 레이아웃<strong> → </strong> PC, tablet, moblie 별로 레이아웃이 반응형으로 변경되서 사용자 친화적인 UI로 변경</p>
-      </li>
-    <li>
-      <p><strong>도전: </strong>프로젝트 성능 최적화</p>
-      <p><strong>성과: </strong></p>
-      <p>-Lighthouse를 통해 애플리케이션의 성능을 모니터링</p>
-      <p>-aria-label속성 추가, 시멘틱한 마크업으로 수정 후 접근성 점수 76점  → 100점</p>
-      </li>
-  </ol>
 - **프로젝트 기간** : 240227 ~ 240410
 - **배포 주소** : https://crypto-tracker-eight-alpha.vercel.app/
 
