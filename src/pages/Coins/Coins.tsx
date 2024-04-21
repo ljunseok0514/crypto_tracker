@@ -22,7 +22,7 @@ import {
   Title,
 } from "./Coins.styled";
 import { CoinData } from "../../interface/CoinData.type";
-import Loader from "../../container/components/common/loader/Loader";
+import Loader from "../../components/common/loader/Loader";
 
 interface ICoinList {
   market: string;

@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { Helmet } from "react-helmet";
 import { useLocation, useParams } from "react-router-dom";
 import { fetchCoinDaysAgo } from "../../api/api";
-import Chart from "../../container/components/coin/Chart";
+import Chart from "../../components/coin/Chart";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
@@ -17,8 +17,8 @@ import {
 } from "./Coin.styled";
 import { CoinData } from "../../interface/CoinData.type";
 import { ICoinDaysAgo } from "../../interface/ICoinDaysAgo.type";
-import Loader from "../../container/components/common/loader/Loader";
-import OverviewBox from "../../container/components/coin/OverviewBox";
+import Loader from "../../components/common/loader/Loader";
+import OverviewBox from "../../components/coin/OverviewBox";
 
 interface RouteState {
   coinCodeName: string;
@@ -33,10 +33,10 @@ function Coin() {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const [loading, setLoading] = useState(true);
-  const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
   const { isLoading: coinDaysAgoLoading, data: coinDaysAgoData } = useQuery<
     ICoinDaysAgo[]
   >(["tickers", coinId], () => fetchCoinDaysAgo(coinId));
+  const [coinData, setCoinData] = useState<{ [key: string]: CoinData }>({});
   useEffect(() => {
     try {
       const ws = new WebSocket("wss://api.upbit.com/websocket/v1");

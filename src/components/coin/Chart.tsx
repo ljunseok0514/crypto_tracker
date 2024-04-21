@@ -1,7 +1,7 @@
 import ApexChart from "react-apexcharts";
-import { isDarkAtom } from "../../../store/atom/atoms";
+import { isDarkAtom } from "../../store/atom/atoms";
 import { useRecoilValue } from "recoil";
-import { ICoinDaysAgo } from "../../../interface/ICoinDaysAgo.type";
+import { ICoinDaysAgo } from "../../interface/ICoinDaysAgo.type";
 import { ApexChartBox, ApexChartBoxContainer } from "./Chart.styled";
 
 interface ChartProps {

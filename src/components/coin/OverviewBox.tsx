@@ -1,4 +1,4 @@
-import { CoinData } from "../../../interface/CoinData.type";
+import { CoinData } from "../../interface/CoinData.type";
 import {
   OverviewBox as StyledOverviewBox,
   Overview,
